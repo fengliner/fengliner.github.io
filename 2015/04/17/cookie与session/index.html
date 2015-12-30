@@ -1,0 +1,425 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Cookie与Session | 琳峰</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    
+    <meta name="author" content="linfeng">
+    
+    <meta name="description" content="Cookie初识Cookie在web应用中，请求路径和查询字符串对业务至关重要，通过它们已经可以进行很多业务操作了，但是HTTP是一个无状态的协议，现实中的业务却是需要一定的状态的，否则无法区分用户之间的身份。如何标识和认证一个用户，最早的方案就是Cookie了。Cookie最早是由文本浏览器Lyn">
+    
+    
+    
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/pacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/pacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.svg" alt="琳峰" title="琳峰"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="琳峰">琳峰</a></h1>
+				<h2 class="blog-motto">Knowing yourself is the beginning of all wisdom</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:google.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/04/17/cookie与session/" title="Cookie与Session" itemprop="url">Cookie与Session</a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="http://google.com" title="linfeng">linfeng</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2015-04-17T03:05:40.000Z" itemprop="datePublished">2015-04-17</time>
+    更新日期:<time datetime="2015-04-23T03:32:19.000Z" itemprop="dateModified">2015-04-23</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Cookie"><span class="toc-number">1.</span> <span class="toc-text">Cookie</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#u521D_u8BC6Cookie"><span class="toc-number">1.1.</span> <span class="toc-text">初识Cookie</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Cookie_u5BF9_u6027_u80FD_u7684_u5F71_u54CD"><span class="toc-number">1.2.</span> <span class="toc-text">Cookie对性能的影响</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Session"><span class="toc-number">2.</span> <span class="toc-text">Session</span></a></li></ol>
+		</div>
+		
+		<h2 id="Cookie"><a href="#Cookie" class="headerlink" title="Cookie"></a>Cookie</h2><h3 id="u521D_u8BC6Cookie"><a href="#u521D_u8BC6Cookie" class="headerlink" title="初识Cookie"></a>初识Cookie</h3><p>在web应用中，请求路径和查询字符串对业务至关重要，通过它们已经可以进行很多业务操作了，但是HTTP是一个无状态的协议，现实中的业务却是需要一定的状态的，否则无法区分用户之间的身份。如何标识和认证一个用户，最早的方案就是Cookie了。<br>Cookie最早是由文本浏览器Lynx合作开发者Lou Montulli在1994年网景公司开发Netscape浏览器的第一个版本时发明。它能记录服务器与客户端之间的状态，最早的用处就是用来判断用户是否是第一次访问网站。在1997年形成规范RFC 2109，目前最新的规范为RFC 6265，它是一个由浏览器和服务器共同协作实现的规范。</p>
+<p>Cookie的处理分为如下几步：<br>（1）服务器向客户端发送Cookie<br>（2）浏览器将Cookie保存<br>（3）之后每次浏览器都会将Cookie发向服务器端   </p>
+<p>客户端发送的Cookie在请求报文的Cookie字段中，根据规范中的定义，Cookie值的格式是key=value;key2=value2形式的。任何请求报文中，如果Cookie值没有isVisit，都会收到“欢迎第一次访问”这样的响应。但是，如果识别到用户没有访问过我们的站点，那么我们的站点是否应该告诉客户端已经访问过的标识呢？告知客户端的方式是通过响应报文实现的，响应的Cookie值在Set-Cookie字段中。它的格式与请求中的格式不太相同，规范中对他的定义如下所示：<br>Set-Cookie: name=value;Path=/;Expires=Sun,23-Apr-23 09:01:35 GMT;Domain=domain.com;<br>其中name=value是必须包含的部分，其余部分皆是可选参数。这些可选参数将会影响浏览器在后续将Cookie发送给服务器端的行为。以下为主要的几个选项：<br>（1）path表示这个Cookie影响到的路径，当前访问的路径不满足该匹配时，浏览器则不发送这个Cookie<br>（2）Expires和Max-Age是用来告知浏览器这个Cookie何时过期的，如果不设置该选项，在关闭浏览器时会丢失掉这个Cookie。如果设置了过期时间，浏览器将会把Cookie内容写入到磁盘中并保存，下次打开浏览器依旧有效。Expires的值是一个UTC格式的时间字符串，告知浏览器此Cookie何时将过期，Max-Age则告知浏览器此Cookie多久后过期。前者一般而言不存在问题，但是如果服务器端的时间和客户端的时间不能匹配，这种时间设置就会存在偏差。为此，Max-Age告知浏览器这条Cookie多久后过期，而不是一个具体的时间点。<br>HTTPOnly告知浏览器不允许通过脚本document.cookie去更改这个Cookie值，事实上，设置HttpOnly之后，这个值在document.cookie中不可见。但是在HTTP请求的过程中，依然会发送这个Cookie到服务器端。<br>Secrue。当Secrue值为true时，在HTTP中是无效的，在HTTPS中才有效，表示创建的Cookie只能在HTTPS连接中被浏览器传递到服务器端进行会话验证，如果是HTTP连接则不会传递该信息，所以很难被窃听到。</p>
+<h3 id="Cookie_u5BF9_u6027_u80FD_u7684_u5F71_u54CD"><a href="#Cookie_u5BF9_u6027_u80FD_u7684_u5F71_u54CD" class="headerlink" title="Cookie对性能的影响"></a>Cookie对性能的影响</h3><p>由于Cookie的实现机制，一旦服务器端向客户端发送了设置Cookie的意图，除非Cookie过期，否则客户端每次请求都会发送这个Cookie到服务器端，一旦设置的Cookie过多，将会导致报头较大。大多数的Cookie并不需要每次都用上，因为这会造成带宽的部分浪费。在YSlow的性能优化规则中有这么几条：<br>（1）减小Cookie的大小<br>（2）为静态组件使用不同的域名<br>（3）减少DNS查询<br>Cookie除了可以通过后端添加协议头的字段设置外，在前端浏览器中也可以通过JavaScript进行修改，浏览器将Cookie通过document.cookie暴露给了JavaScript。前端在修改Cookie之后，后续的网络请求中就会携带上修改过后的值。<br>目前，广告和在线统计领域是最为依赖Cookie的，通过嵌入第三方的广告或者统计脚本，将Cookie和当前页面绑定，这样就可以标识用户，得到用户的浏览行为，广告商就可以定向投放广告了。尽管这样的行为看起来很可怕，但是从Cookie的原理来说，他只能做到标识，而不能做任何具有破坏性的事情。如果依然担心自己站点的用户被记录下行为，那就不要挂任何第三方的脚本。</p>
+<h2 id="Session"><a href="#Session" class="headerlink" title="Session"></a>Session</h2><p>通过Cookie，浏览器和服务器可以实现状态的记录。但是Cookie并非是完美的，前文提及的体积过大就是一个显著的问题，最为严重的问题是Cookie可以在前后端进行修改，因此数据就极容易被篡改和伪造。如果服务器端有部分逻辑是根据Cookie中的isVip字段进行判断，那么一个普通用户通过修改Cookie就可以轻松享受到VIP服务了。综上所述，Cookie对于敏感数据的保护是无效的。<br>为了解决Cookie敏感数据的问题，Session应运而生。Session的数据只保留在服务器端，客户端无法修改，这样数据的安全性得到一定的保障，数据也无须在协议中每次都传递。<br>虽然在服务器端存储数据十分方便，但是如何将每个客户和服务器中的数据一一对应起来，这里有常见的两种实现方式：        </p>
+<p><em>第一种：基于Cookie来实现用户和数据的映射</em>  </p>
+<p>虽然将所有数据都放在Cookie中不可取，但是将口令放在Cookie中还是可以的。因为口令一旦被篡改，就丢失了映射关系，也无法修改服务器端存在的数据了。并且Session的有效期通常较短，普遍的设置是20分钟，如果在20分钟内客户端和服务器端没有交互产生，服务器端就将数据删除。由于数据过期时间较短，且在服务器端存储数据，因此安全性相对较高。那么口令是如何产生的呢？<br>一旦服务器端启用了Session，它将约定一个键值作为Session的口令，这个值可以随意约定，比如Connect默认采用connect_uid，Tomcat会采用jsessionid等。一旦服务器检查到用户请求Cookie中没有携带该值，它就会为之生成一个值，这个值是唯一且不重复的值，并设定超时时间。以下为生成Session的代码：</p>
+<pre><code>var sessions = {};
+var key = &apos;session_id&apos;;
+
+var generate = function() {
+    var session = {};
+    session.id = (new Date()).getTime() + Math.random();
+    session.cookie = {
+        expire: (new Date()).getTime() + EXPIRES
+    };
+    sessions[session_id] = session;
+    return session;
+};
+</code></pre><p>每个请求到来时，检查Cookie中的口令与服务器端的数据，如果过期，就重新生成，如下所示：</p>
+<pre><code>function(req, res) {
+    var id = req.cookies[key];
+    if (!id) {
+        req.session = generate();
+    } else {
+        var session = sessions[id];
+        if (session) {
+            if (session.cookie.expire &gt; (new Date()).getTime()) {
+                //更新超时时间
+                session.cookie.expire = (new Date()).getTime() + EXPIRES;
+                req.session = session;
+            } else {
+                //超时了，删除旧的数据，并重新生成
+                delete sessions[id];
+                req.session = generate();
+            }
+        } else {
+            //如果session过期或口令不对，重新生成session
+            req.session = generate();
+        }
+    }
+    handle(req, res);
+}       
+</code></pre><p>当然仅仅重新生成Session还不足以完成整个流程，还需要在响应给客户端时设置新的值，以便下次请求时能够对应服务器端的数据。<br>至此，session在前后端进行对应的过程就完成了。这样的业务逻辑可以判断和设置session，以此来维护用户与服务器端的关系。这样在session中保存的数据比直接在cookie中保存数据要安全得多。这种实现方案依赖cookie实现，而且也是目前大多数web应用的方案。如果客户端禁止使用cookie，这个世界上大多数的网站将无法实现登录等操作。           </p>
+<p><em>第二种：通过查询字符串来实现浏览器和服务器端数据的对应</em></p>
+<p>它的原理是检查请求的查询字符串，如果没有值，会先生成新的带值的URL，然后形成跳转，让客户端重新发起请求。用户访问<em><a href="http://localhost/pathname" target="_blank" rel="external">http://localhost/pathname</a></em>时，如果服务器端发现查询字符串中不带session_id参数，就会将用户跳转到<em><a href="http://localhost/pathname?session_id=1234567" target="_blank" rel="external">http://localhost/pathname?session_id=1234567</a></em>这样一个类似的地址。如果浏览器收到302状态码和Location报头，就会重新发起新的请求，这样新的请求到来时就能通过session的检查，除非内存中的数据过期。<br>有的服务器在客户端禁用cookie时，会采用这样方案实现退化。通过这种方案，无须在响应时设置cookie。但是这种方案带来的风险远大于基于cookie实现的风险，只要将地址栏中的地址发给另外一个人，那么他就拥有跟你相同的身份。cookie的方案在换了浏览器或者换了电脑之后无法生效，相对较为安全。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/web/">web</a>
+  </div>
+
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/learning/">learning</a>
+</div>
+
+
+
+<div class="article-share" id="share">
+
+  <div data-url="http://google.com/2015/04/17/cookie与session/" data-title="Cookie与Session | 琳峰" data-tsina="只要-心-够决" class="share clearfix">
+  </div>
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/06/07/相信未来/" title="相信未来">
+  <strong>PREVIOUS:</strong><br/>
+  <span>
+  相信未来</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/03/21/Restful/"  title="RESTful">
+ <strong>NEXT:</strong><br/> 
+ <span>RESTful
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section class="comment">
+	<div class="ds-thread"></div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Cookie"><span class="toc-number">1.</span> <span class="toc-text">Cookie</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#u521D_u8BC6Cookie"><span class="toc-number">1.1.</span> <span class="toc-text">初识Cookie</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Cookie_u5BF9_u6027_u80FD_u7684_u5F71_u54CD"><span class="toc-number">1.2.</span> <span class="toc-text">Cookie对性能的影响</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Session"><span class="toc-number">2.</span> <span class="toc-text">Session</span></a></li></ol>
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+			<li><a href="/categories/basketball/" title="basketball">basketball<sup>4</sup></a></li>
+		
+			<li><a href="/categories/learning/" title="learning">learning<sup>32</sup></a></li>
+		
+			<li><a href="/categories/life/" title="life">life<sup>3</sup></a></li>
+		
+			<li><a href="/categories/为你读诗/" title="为你读诗">为你读诗<sup>2</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			<li><a href="/tags/C/" title="C++">C++<sup>6</sup></a></li>
+		
+			<li><a href="/tags/Mongodb/" title="Mongodb">Mongodb<sup>3</sup></a></li>
+		
+			<li><a href="/tags/Ubuntu/" title="Ubuntu">Ubuntu<sup>2</sup></a></li>
+		
+			<li><a href="/tags/git/" title="git">git<sup>1</sup></a></li>
+		
+			<li><a href="/tags/http/" title="http">http<sup>1</sup></a></li>
+		
+			<li><a href="/tags/ios/" title="ios">ios<sup>1</sup></a></li>
+		
+			<li><a href="/tags/markdown/" title="markdown">markdown<sup>1</sup></a></li>
+		
+			<li><a href="/tags/node-js/" title="node.js">node.js<sup>9</sup></a></li>
+		
+			<li><a href="/tags/web/" title="web">web<sup>2</sup></a></li>
+		
+			<li><a href="/tags/数据库/" title="数据库">数据库<sup>1</sup></a></li>
+		
+			<li><a href="/tags/数据结构/" title="数据结构">数据结构<sup>5</sup></a></li>
+		
+			<li><a href="/tags/文件操作/" title="文件操作">文件操作<sup>1</sup></a></li>
+		
+			<li><a href="/tags/篮球/" title="篮球">篮球<sup>4</sup></a></li>
+		
+			<li><a href="/tags/虚函数/" title="虚函数">虚函数<sup>1</sup></a></li>
+		
+			<li><a href="/tags/设计模式/" title="设计模式">设计模式<sup>1</sup></a></li>
+		
+			<li><a href="/tags/诗歌/" title="诗歌">诗歌<sup>2</sup></a></li>
+		
+			<li><a href="/tags/随笔/" title="随笔">随笔<sup>3</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  <div class="rsspart">
+	<a href="null" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hi,I&#39;m linfeng.For now I&#39;m a student at college. <br/>
+			Node.js is my interest now which I&#39;d like to share with you at this blog.</p>
+	</section>
+	 
+	<div class="social-font clearfix">
+		
+		<a href="http://weibo.com/2088462463" target="_blank" title="weibo"></a>
+		
+		
+		
+		<a href="https://github.com/fengliner" target="_blank" title="github"></a>
+		
+		
+		
+	</div>
+		<p class="copyright">Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a> © 2015 
+		
+		<a href="http://google.com" target="_blank" title="linfeng">linfeng</a>
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#share"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="#textlogo" class="article-back-to-top" title="Top"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="QRcode"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="Weibo"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"null"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+  </body>
+</html>

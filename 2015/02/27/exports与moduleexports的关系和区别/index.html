@@ -1,0 +1,461 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>exports与module.exports的关系和区别 | 琳峰</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    
+    <meta name="author" content="linfeng">
+    
+    <meta name="description" content="一直比较纠结exports与module.exports的关系，在查阅资料后，终于有了一些清醒的认识。简单说，exports只是对module.exports对象的引用。module.exports才是真正的接口，exports只不过是它的一个辅助工具，最终返回给调用的是module.exports">
+    
+    
+    
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/pacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/pacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.svg" alt="琳峰" title="琳峰"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="琳峰">琳峰</a></h1>
+				<h2 class="blog-motto">Knowing yourself is the beginning of all wisdom</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:google.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/02/27/exports与moduleexports的关系和区别/" title="exports与module.exports的关系和区别" itemprop="url">exports与module.exports的关系和区别</a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="http://google.com" title="linfeng">linfeng</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2015-02-27T06:52:01.000Z" itemprop="datePublished">2015-02-27</time>
+    更新日期:<time datetime="2015-02-27T07:24:40.000Z" itemprop="dateModified">2015-02-27</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#u4F7F_u7528exports"><span class="toc-number">1.</span> <span class="toc-text">使用exports</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u4F7F_u7528module-exports"><span class="toc-number">2.</span> <span class="toc-text">使用module.exports</span></a></li></ol>
+		</div>
+		
+		<p>一直比较纠结exports与module.exports的关系，在查阅资料后，终于有了一些清醒的认识。简单说，exports只是对module.exports对象的引用。module.exports才是真正的接口，exports只不过是它的一个辅助工具，最终返回给调用的是module.exports而不是exports。</p>
+<p>注：通过console.log(module)我们可以看到module这个对象的属性，其中有一个属性就是exports，初始化为空对象，这里的module.exports就是这个空对象。而exports是另一个对象，它只是对module.exports的引用。</p>
+<p>参考：<a href="http://www.cnblogs.com/pigtail/archive/2013/01/14/2859555.html" target="_blank" rel="external">http://www.cnblogs.com/pigtail/archive/2013/01/14/2859555.html</a><br><a href="https://cnodejs.org/topic/5231a630101e574521e45ef8" target="_blank" rel="external">https://cnodejs.org/topic/5231a630101e574521e45ef8</a></p>
+<p>要想了解为何每个文件模块中都存在require、exports、module3个变量可参考朴灵的深入浅出P19。</p>
+<p>为了更好地理解exports与module.exports的关系，先来点js基础，示例：</p>
+<pre><code>var a = {name: &apos;fengliner 1&apos;};
+var b =a;
+
+console.log(a);
+console.log(b);
+
+b.name = &apos;fengliner 2&apos;;
+console.log(a);
+console.log(b);
+
+var b = {name: &apos;fengliner 3&apos;};
+console,log(a);
+console.log(b);
+</code></pre><p>保存为test.js，运行结果：</p>
+<pre><code>{name: &apos;fengliner 1&apos;}
+{name: &apos;fengliner 1&apos;}
+{name: &apos;fengliner 2&apos;}
+{name: &apos;fengliner 2&apos;}
+{name: &apos;fengliner 2&apos;}
+{name: &apos;fengliner 3&apos;}
+</code></pre><p>解释：a是一个对象，b是对a的引用，即a和b指向同一个对象，即a和b指向同一块内存地址，所以前两个输出一样。当对b做修改时，即a和b指向同一块内存地址的内容发生了改变，所以a也会体现出来，所以第三个第四个输出一样。当对b完全覆盖时，b就指向了一块新的内存地址（并没有对原先的内存做修改），a还是指向原来的内存块，即a和b不再指向同一块内存，也就是说此时a和b已毫无关系，所以最后两个输出不一样。</p>
+<p>明白上述例子后，进入正题。<br>只需知道三点即可知道exports和module.exports的区别了：</p>
+<ol>
+<li>exports是指向module.exports的引用</li>
+<li>module.exports初始值为一个空对象{}，所以exports初始值也是{}</li>
+<li>require()返回的是module.exports而不是exports</li>
+</ol>
+<p>所以，我们通过</p>
+<pre><code>var name = &apos;fengliner&apos;;
+exports.name = name;
+exports.sayName = function() {
+    console.log(name);
+}
+</code></pre><p>给exports赋值其实是给module.exports这个空对象添加了两个属性而已，上面的代码相当于：</p>
+<pre><code>var name = &apos;fengliner&apos;;
+module.exports.name = name;
+module.exports.sayName = function() {
+    console.log(name);
+}
+</code></pre><p>我们通常这样使用exports和module.exports，一个简单的例子，计算圆的面积：</p>
+<h2 id="u4F7F_u7528exports"><a href="#u4F7F_u7528exports" class="headerlink" title="使用exports"></a>使用exports</h2><pre><code>app.js
+var circle = require(&apos;./circle&apos;);
+console.log(circle.area(4));
+
+circle.js
+exports.area = function(r) {
+    return r * r * Math.PI;
+}
+</code></pre><h2 id="u4F7F_u7528module-exports"><a href="#u4F7F_u7528module-exports" class="headerlink" title="使用module.exports"></a>使用module.exports</h2><pre><code>app.js
+var area = require(&apos;./area&apos;);
+console.log(area(4));
+
+area.js
+module.exports = function(r) {
+    return r * r * Math.PI;
+}
+</code></pre><p>上面两个例子输出是一样的。你也许会问，为什么不这样写呢？</p>
+<pre><code>app.js
+var area = require(&apos;./area&apos;);
+console.log(area(4));
+
+area.js
+exports = function(r) {
+    return r * r * Math.PI;
+}
+</code></pre><p>运行上面的例子会报错。这是因为，前面的例子中通过给 exports 添加属性，只是对 exports 指向的内存做了修改，而</p>
+<pre><code>exports = function(r) {
+    return r * r * Math.PI;
+}
+</code></pre><p>其实是对 exports 进行了覆盖，也就是说 exports 指向了一块新的内存（内容为一个计算圆面积的函数），也就是说 exports 和 module.exports 不再指向同一块内存，也就是说此时 exports 和 module.exports 毫无联系，也就是说 module.exports 指向的那块内存并没有做任何改变，仍然为一个空对象 {} ，也就是说 area.js 导出了一个空对象，所以我们在 app.js 中调用 area(4) 会报 TypeError: object is not a function 的错误。</p>
+<p>所以，一句话做个总结：当我们想让模块导出的是一个对象时， exports 和 module.exports 均可使用（但 exports 也不能重新覆盖为一个新的对象），而当我们想导出非对象接口时，就必须也只能覆盖 module.exports 。</p>
+<p>我们经常看到这样的用写法：</p>
+<pre><code>exports = module.exports = somethings
+</code></pre><p>上面的代码等价于</p>
+<pre><code>module.exports = somethings
+exports = module.exports
+</code></pre><p>原因也很简单， module.exports = somethings 是对 module.exports 进行了覆盖，此时 module.exports 和 exports 的关系断裂，module.exports 指向了新的内存块，而 exports 还是指向原来的内存块，为了让 module.exports 和 exports 还是指向同一块内存或者说指向同一个 “对象”，所以我们就 exports = module.exports 。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/node-js/">node.js</a>
+  </div>
+
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/learning/">learning</a>
+</div>
+
+
+
+<div class="article-share" id="share">
+
+  <div data-url="http://google.com/2015/02/27/exports与moduleexports的关系和区别/" data-title="exports与module.exports的关系和区别 | 琳峰" data-tsina="只要-心-够决" class="share clearfix">
+  </div>
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/02/27/在多个事件里交叉执行cpu运算密集型的任务：/" title="理解Node.js里的process.nextTick()">
+  <strong>PREVIOUS:</strong><br/>
+  <span>
+  理解Node.js里的process.nextTick()</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/02/27/http协议小解/"  title="http协议小解">
+ <strong>NEXT:</strong><br/> 
+ <span>http协议小解
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section class="comment">
+	<div class="ds-thread"></div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#u4F7F_u7528exports"><span class="toc-number">1.</span> <span class="toc-text">使用exports</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u4F7F_u7528module-exports"><span class="toc-number">2.</span> <span class="toc-text">使用module.exports</span></a></li></ol>
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+			<li><a href="/categories/basketball/" title="basketball">basketball<sup>4</sup></a></li>
+		
+			<li><a href="/categories/learning/" title="learning">learning<sup>32</sup></a></li>
+		
+			<li><a href="/categories/life/" title="life">life<sup>3</sup></a></li>
+		
+			<li><a href="/categories/为你读诗/" title="为你读诗">为你读诗<sup>2</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			<li><a href="/tags/C/" title="C++">C++<sup>6</sup></a></li>
+		
+			<li><a href="/tags/Mongodb/" title="Mongodb">Mongodb<sup>3</sup></a></li>
+		
+			<li><a href="/tags/Ubuntu/" title="Ubuntu">Ubuntu<sup>2</sup></a></li>
+		
+			<li><a href="/tags/git/" title="git">git<sup>1</sup></a></li>
+		
+			<li><a href="/tags/http/" title="http">http<sup>1</sup></a></li>
+		
+			<li><a href="/tags/ios/" title="ios">ios<sup>1</sup></a></li>
+		
+			<li><a href="/tags/markdown/" title="markdown">markdown<sup>1</sup></a></li>
+		
+			<li><a href="/tags/node-js/" title="node.js">node.js<sup>9</sup></a></li>
+		
+			<li><a href="/tags/web/" title="web">web<sup>2</sup></a></li>
+		
+			<li><a href="/tags/数据库/" title="数据库">数据库<sup>1</sup></a></li>
+		
+			<li><a href="/tags/数据结构/" title="数据结构">数据结构<sup>5</sup></a></li>
+		
+			<li><a href="/tags/文件操作/" title="文件操作">文件操作<sup>1</sup></a></li>
+		
+			<li><a href="/tags/篮球/" title="篮球">篮球<sup>4</sup></a></li>
+		
+			<li><a href="/tags/虚函数/" title="虚函数">虚函数<sup>1</sup></a></li>
+		
+			<li><a href="/tags/设计模式/" title="设计模式">设计模式<sup>1</sup></a></li>
+		
+			<li><a href="/tags/诗歌/" title="诗歌">诗歌<sup>2</sup></a></li>
+		
+			<li><a href="/tags/随笔/" title="随笔">随笔<sup>3</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  <div class="rsspart">
+	<a href="null" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hi,I&#39;m linfeng.For now I&#39;m a student at college. <br/>
+			Node.js is my interest now which I&#39;d like to share with you at this blog.</p>
+	</section>
+	 
+	<div class="social-font clearfix">
+		
+		<a href="http://weibo.com/2088462463" target="_blank" title="weibo"></a>
+		
+		
+		
+		<a href="https://github.com/fengliner" target="_blank" title="github"></a>
+		
+		
+		
+	</div>
+		<p class="copyright">Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a> © 2015 
+		
+		<a href="http://google.com" target="_blank" title="linfeng">linfeng</a>
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#share"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="#textlogo" class="article-back-to-top" title="Top"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="QRcode"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="Weibo"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"null"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+  </body>
+</html>

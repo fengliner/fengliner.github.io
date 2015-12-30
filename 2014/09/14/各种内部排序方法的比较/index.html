@@ -1,0 +1,551 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>各种内部排序方法的比较 | 琳峰</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    
+    <meta name="author" content="linfeng">
+    
+    <meta name="description" content="##直接插入排序：有一个已经有序的数据序列，要求在这个已经排好的数据序列中插入一个数，但要求插入后此数据序列仍然有序，这个时候就要用到一种新的排序方法-插入排序法。  &lt;!--more--&gt;算法描述：            
+
+从第一个元素开始，该元素可以认为已经被排序            
+取出">
+    
+    
+    
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/pacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/pacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.svg" alt="琳峰" title="琳峰"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="琳峰">琳峰</a></h1>
+				<h2 class="blog-motto">Knowing yourself is the beginning of all wisdom</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:google.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2014/09/14/各种内部排序方法的比较/" title="各种内部排序方法的比较" itemprop="url">各种内部排序方法的比较</a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="http://google.com" title="linfeng">linfeng</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2014-09-14T04:28:36.000Z" itemprop="datePublished">2014-09-14</time>
+    更新日期:<time datetime="2014-11-22T01:04:38.000Z" itemprop="dateModified">2014-11-22</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+		</div>
+		
+		<a id="more"></a>
+<p>##直接插入排序：<br>有一个已经有序的数据序列，要求在这个已经排好的数据序列中插入一个数，但要求插入后此数据序列仍然有序，这个时候就要用到一种新的排序方法-插入排序法。  <!--more--><br>算法描述：            </p>
+<ol>
+<li>从第一个元素开始，该元素可以认为已经被排序            </li>
+<li>取出下一个元素，在已经排序的元素序列中从后向前扫描       </li>
+<li>如果该元素（已排序）大于新元素，将该元素移到下一位置            </li>
+<li>重复步骤3，直到找到已排序的元素小于或者等于新元素的位置            </li>
+<li>将新元素插入到下一位置中               </li>
+<li>重复步骤2-5<br>代码实现：<br> void insertion_sort(int a[],int n)<br> {<br>   int i,j;<br>   int temp;<br>   for(i=1;i&lt;n;i++)<br>   {<pre><code>temp=a[i];
+j=i-1;
+while(j&gt;=0&amp;&amp;a[j]&gt;temp)
+{
+  a[j+1]=a[j];
+  j--;
+}
+if(j!=i-1)
+{
+  a[j+1]=temp;
+}
+</code></pre>   }<br> }</li>
+</ol>
+<p>##希尔排序：<br>希尔排序是插入排序的一种，直接插入排序是增量为1的希尔排序，所以代码只要把增量改一下就可以了。<br>代码实现：   </p>
+<pre><code>#include &lt;iostream&gt;
+using namespace std;               
+void shell_sort(int a[],int n)
+{
+  int d,i,j,temp;
+  for(d=n/2;d&gt;=1;d=d/2)
+  {
+    for(i=d;i&lt;n;i++)
+    {
+      temp=a[i];
+      for(j=i-d;j&gt;0&amp;&amp;a[j]&gt;temp;i=j-d)
+      {
+        a[j+d]=a[j];
+      }
+      a[j+d]=temp;
+    }
+  }
+}
+</code></pre><p>##冒泡排序<br>算法描述：           </p>
+<ol>
+<li>比较相邻的元素。如果第一个比第二个大，就交换他们两个。          </li>
+<li>对每一对相邻元素作同样的工作，从开始第一对到结尾的最后一对。在这一点，最后的元素应该会是最大的数。     </li>
+<li>针对所有的元素重复以上的步骤，除了最后一个。             </li>
+<li>持续每次对越来越少的元素重复上面的步骤，直到没有任何一对数字需要比较。<br>代码实现：<br> void bubble_sort(int a[],int n)<br> {<br>   int i,j,temp;<br>   for(j=0;j&lt;n-1;j++)<br>   {<pre><code>for(i=0;i&lt;n-1-j;i++)
+{
+  if(a[i]&gt;a[i+1])
+  {
+    temp=a[i];
+    a[i]=a[j];
+    a[j]=temp;
+  }
+}
+</code></pre>   }<br> }</li>
+</ol>
+<p>##快速排序<br>快速排序（Quicksort）是对冒泡排序的一种改进。它的基本思想是：通过一趟排序将要排序的数据分割成独立的两部分，其中一部分的所有数据都比另外一部分的所有数据都要小，然后再按此方法对这两部分数据分别进行快速排序，整个排序过程可以递归进行，以此达到整个数据变成有序序列。<br>算法介绍：<br>设要排序的数组是A[0]……A[N-1]，首先任意选取一个数据（通常选用数组的第一个数）作为关键数据，然后将所有比它小的数都放到它前面，所有比它大的数都放到它后面，这个过程称为一趟快速排序。<br>一趟快速排序的算法是：<br>1）设置两个变量i、j，排序开始的时候：i=0，j=N-1；<br>2）以第一个数组元素作为关键数据，赋值给key，即key=A[0]；<br>3）从j开始向前搜索，即由后开始向前搜索(j–)，找到第一个小于key的值A[j]，将A[j]和A[i]互换；<br>4）从i开始向后搜索，即由前开始向后搜索(i++)，找到第一个大于key的A[i]，将A[i]和A[j]互换；<br>5）重复第3、4步，直到i=j；<br>代码实现：</p>
+<pre><code>#include &lt;iostream&gt;
+using namespace std;   
+void quick_sort(int a[].int low,int high)  //low,high为数组中首元素与尾元素的下标
+{
+  if(low&gt;=high)
+  {
+    return;
+  }
+  int first=low;
+  int last=high;
+  int key=a[first];
+  while(first&lt;last)
+  {
+    while(first&lt;last&amp;&amp;a[last]&gt;=key)
+    {
+      last--;
+    }
+    a[first]=a[last];
+    while(first&lt;last&amp;&amp;a[first]&lt;=key)
+    {
+      first++;
+    }
+    a[last]=a[first];
+  }
+  a[first]=key;
+  quick_sort(a,low.first-1);
+  quick_sort(a,last+1,high);
+}
+</code></pre><p>##选择排序<br>算法描述：<br>每一趟从待排序的数据元素中选出最小（或最大）的一个元素，顺序放在已排好序的数列的最后，直到全部待排序的数据元素排完。<br>对于数组a[n]来说，第一趟排序是从a[1]…a[n]中选出最小的元素与a[1]交换，第二趟排序是从a[2]…a[n]中选出最小的元素与a[2]交换，依次类推<br>代码实现：      </p>
+<pre><code>#include &lt;iostream&gt;
+using namespace std;       
+void select_sort(int *a,int n)
+{
+  int i,j,min,t;
+  for(i=0;i&lt;n-1;i++)
+  {
+    min=i;
+    for(j=i+1;j&lt;n;j++)
+    {
+      if(a[min]&gt;a[j])
+      {
+        min=j;
+      }
+    }
+    if(min!=i)
+    {
+      t=a[min];
+      a[min]=a[i];
+      a[i]=t;
+    }
+  }
+}
+</code></pre><p>##归并排序<br>归并（Merge）排序法是将两个（或两个以上）有序表合并成一个新的有序表，即把待排序序列分为若干个有序的子序列，再把有序的子序列合并为整体有序序列。<br>以二路归并为例，介绍一下归并过程：<br>比较a[i]和a[j]的大小，若a[i]≤a[j]则将第一个有序表中的元素a[i]复制到r[k]中，并令i和k分别加1，如此循环下去直到其中一个有序表取完，然后再将另一个有序表中剩余的元素复制到r中从下标k到下标t的单元。<br>对于一个无序数组a[]，使用归并排序，代码如下：   </p>
+<pre><code>#include &lt;iostream&gt;
+using namespace std;
+void merge(int r[],int r1[],int s,int m,int t)
+{
+  int i=s;
+  int j=m+1;
+  int k=s;
+  while(i&lt;=m&amp;&amp;j&lt;=t)
+  {
+    if(r[i]&lt;=r[j])
+    {
+      r1[k++]=r[i++]
+    }
+    else
+    {
+      r1[k++]=r[j++];
+    }
+  }
+  if(i&lt;=m)
+  {
+    while(i&lt;=m)
+    {
+      r1[k++]=r[i++]
+    }
+  }
+  else
+  {
+    while(j&lt;=t)
+    {
+      r1[k++]=r[j++]
+    }
+  }
+  for(int n=s;n&lt;=t;n++)
+  {
+    r[n]=r1[n]
+  }
+} 
+void merge_sort(int r[],int r1[].int s,int t)
+{
+  if(s&lt;t)
+  {
+    int m=(s+t)/2;
+    merge_sort(r,r1,s,m);
+    merge_sort(r,r1,m+1,t);
+    merge(r,r1,s,m,t);
+  }
+}
+int main()
+{
+  int r[8]={10,3,5,1,9,34,54,456};
+  int r1[8];
+  merge_sort(r,r1.0,7);
+  for(int q=0;q&lt;8;q++)
+  {
+    cout&lt;&lt;&quot; &quot;&lt;&lt;r[q];
+  }
+  return 0;
+}
+</code></pre><p>##总结<br>直接插入排序： 平均时间复杂度o(n^2),最坏情况o(n^2),空间复杂度o(1),稳定<br>冒泡排序： 平均时间复杂度o(n^2),最坏情况o(n^2),空间复杂度o(1),稳定<br>简单选择排序： 平均时间复杂度o(n^2),最坏情况o(n^2),空间复杂度o(1),不稳定<br>快速排序： 平均时间复杂度o(nlog2n),最坏情况o(n^2),空间复杂度o(log2n),不稳定<br>堆排序： 平均时间复杂度o(nlog2n),最坏情况o(nlog2n),空间复杂度o(1),不稳定<br>归并排序： 平均时间复杂度o(nlog2n),最坏情况o(nlog2n),空间复杂度o(n),稳定          </p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/数据结构/">数据结构</a>
+  </div>
+
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/learning/">learning</a>
+</div>
+
+
+
+<div class="article-share" id="share">
+
+  <div data-url="http://google.com/2014/09/14/各种内部排序方法的比较/" data-title="各种内部排序方法的比较 | 琳峰" data-tsina="只要-心-够决" class="share clearfix">
+  </div>
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2014/09/21/将二叉查找树变为有序的双向链表/" title="将二叉查找树变为有序的双向链表">
+  <strong>PREVIOUS:</strong><br/>
+  <span>
+  将二叉查找树变为有序的双向链表</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2014/09/14/制霸赛有感之为什么我们深爱篮球/"  title="制霸赛有感之为什么我们深爱篮球">
+ <strong>NEXT:</strong><br/> 
+ <span>制霸赛有感之为什么我们深爱篮球
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section class="comment">
+	<div class="ds-thread"></div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+  
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+			<li><a href="/categories/basketball/" title="basketball">basketball<sup>4</sup></a></li>
+		
+			<li><a href="/categories/learning/" title="learning">learning<sup>32</sup></a></li>
+		
+			<li><a href="/categories/life/" title="life">life<sup>3</sup></a></li>
+		
+			<li><a href="/categories/为你读诗/" title="为你读诗">为你读诗<sup>2</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			<li><a href="/tags/C/" title="C++">C++<sup>6</sup></a></li>
+		
+			<li><a href="/tags/Mongodb/" title="Mongodb">Mongodb<sup>3</sup></a></li>
+		
+			<li><a href="/tags/Ubuntu/" title="Ubuntu">Ubuntu<sup>2</sup></a></li>
+		
+			<li><a href="/tags/git/" title="git">git<sup>1</sup></a></li>
+		
+			<li><a href="/tags/http/" title="http">http<sup>1</sup></a></li>
+		
+			<li><a href="/tags/ios/" title="ios">ios<sup>1</sup></a></li>
+		
+			<li><a href="/tags/markdown/" title="markdown">markdown<sup>1</sup></a></li>
+		
+			<li><a href="/tags/node-js/" title="node.js">node.js<sup>9</sup></a></li>
+		
+			<li><a href="/tags/web/" title="web">web<sup>2</sup></a></li>
+		
+			<li><a href="/tags/数据库/" title="数据库">数据库<sup>1</sup></a></li>
+		
+			<li><a href="/tags/数据结构/" title="数据结构">数据结构<sup>5</sup></a></li>
+		
+			<li><a href="/tags/文件操作/" title="文件操作">文件操作<sup>1</sup></a></li>
+		
+			<li><a href="/tags/篮球/" title="篮球">篮球<sup>4</sup></a></li>
+		
+			<li><a href="/tags/虚函数/" title="虚函数">虚函数<sup>1</sup></a></li>
+		
+			<li><a href="/tags/设计模式/" title="设计模式">设计模式<sup>1</sup></a></li>
+		
+			<li><a href="/tags/诗歌/" title="诗歌">诗歌<sup>2</sup></a></li>
+		
+			<li><a href="/tags/随笔/" title="随笔">随笔<sup>3</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  <div class="rsspart">
+	<a href="null" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hi,I&#39;m linfeng.For now I&#39;m a student at college. <br/>
+			Node.js is my interest now which I&#39;d like to share with you at this blog.</p>
+	</section>
+	 
+	<div class="social-font clearfix">
+		
+		<a href="http://weibo.com/2088462463" target="_blank" title="weibo"></a>
+		
+		
+		
+		<a href="https://github.com/fengliner" target="_blank" title="github"></a>
+		
+		
+		
+	</div>
+		<p class="copyright">Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a> © 2015 
+		
+		<a href="http://google.com" target="_blank" title="linfeng">linfeng</a>
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#share"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="#textlogo" class="article-back-to-top" title="Top"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="QRcode"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="Weibo"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"null"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+  </body>
+</html>

@@ -1,0 +1,399 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>C++虚函数 | 琳峰</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    
+    <meta name="author" content="linfeng">
+    
+    <meta name="description" content="一：虚函数
+C++继承的难点，不在继承，而是在虚函数。之所以会有“虚函数”这个概念，是因为先有了“继承”这个概念，然后才出现了灵活多变的“虚函数”。可以说，没有继承，就没有虚函数。        
+简单地说，虚函数是C++用于实现多态的机制。
+函数前面加一个virtual，就可以通过父类指针随意地调">
+    
+    
+    
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/pacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/pacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.svg" alt="琳峰" title="琳峰"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="琳峰">琳峰</a></h1>
+				<h2 class="blog-motto">Knowing yourself is the beginning of all wisdom</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:google.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2014/03/09/虚函数/" title="C++虚函数" itemprop="url">C++虚函数</a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="http://google.com" title="linfeng">linfeng</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2014-03-09T12:37:26.000Z" itemprop="datePublished">2014-03-9</time>
+    更新日期:<time datetime="2014-11-26T13:36:16.000Z" itemprop="dateModified">2014-11-26</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+		</div>
+		
+		<a id="more"></a>
+<p>一：虚函数</p>
+<p>C++继承的难点，不在继承，而是在虚函数。之所以会有“虚函数”这个概念，是因为先有了“继承”这个概念，然后才出现了灵活多变的“虚函数”。可以说，没有继承，就没有虚函数。        </p>
+<p>简单地说，虚函数是C++用于实现多态的机制。</p>
+<p>函数前面加一个virtual，就可以通过父类指针随意地调用各个子类的同名函数，用一个指针实现了不同的运行效果，达到多态的妙处，这就是常说的虚函数的主要用途。</p>
+<p>二：静态联编和动态联编</p>
+<p>联编是一个程序把自身各个部件(源代码、资源、相关的库和模块等)彼此关联的过程。</p>
+<p>通常说的联编是静态联编，可以分为编译和链接两个阶段，编译就是把程序的源代码通过C++编译器转换成指定的中间代码(如汇编代码)；链接就是把中间代码和资源等转换成目标二进制可执行代码。静态联编是早期联编，是在程序运行起来之前就已经完成的了。通常使用的函数就是静态联编完成的。这就是通常说的“最后是谁的指针，就运行谁的函数”。</p>
+<p>动态联编是程序运行时进行的联编工作，C++规定动态联编是在虚函数的支持下实现的。</p>
+<p>三：父类的析构函数必须是虚的析构函数</p>
+<p>如果一个基类的析构函数是虚的析构函数，则它的子类不需要加上关键字virtual也一样是虚的析构函数。把析构函数声明为虚的析构函数的目的在于，使用delete删除一个对象时能保证析构函数被正确的执行。因为设置了虚的析构函数后，能确保用动态联编的方式选择正确的析构函数。</p>
+<p>四：构造函数不能是虚函数</p>
+<p>1.从存储空间角度，虚函数对应一个指向vtable虚函数表的指针，可是这个指向vtable的指针其实是存储在对象的内存空间的。问题来了，如果构造函数是虚函数的，就需要通过vtable来调用，可是对象还没有实例化，也就是内存空间还没有，怎么找vtable呢？所以构造函数不能是虚函数。            </p>
+<p>2.从使用角度，虚函数主要用于在信息不全的情况下，能使重载的函数得到对应的调用。构造函数本身就是要初始化实例，使用虚函数也没有实际意义。所以构造函数没有必要是虚函数。虚函数的作用在于通过父类的指针或者引用来调用它的时候能够变成调用子类的那个成员函数，而构造函数是在创建对象时自动调用的，不可能通过父类的指针或者引用去调用，因此也就规定构造函数不能是虚函数。           </p>
+<p>3.构造函数不需要是虚函数也不允许是虚函数，因为创建一个对象时我们总是要明确指定对象的类型，但析构却不一定，我们往往通过基类的指针来销毁对象。这时候如果析构函数不是虚函数，就不能正确识别对象类型从而不能正确调用析构函数。      </p>
+<p>4.从实现上来看，vbtable在构造函数调用后才建立，因而构造函数不可能成为虚函数。从实际含义来看，在调用构造函数时还不能确定对象的真实类型（因为子类会调父类的构造函数），而且构造函数的作用是提供初始化，在对象生命期只执行一次，不是对象的动态行为，也没有必要成为虚函数。        </p>
+<p>5.当一个构造函数被调用时，它做的首要的事情之一是初始化它的VPTR。因此，它只能知道它是“当前”类的，而完全忽视这个对象后面是否还有继承者。当编译器为这个构造函数产生代码时，它是为这个类的构造函数产生代码——既不是为基类，也不是为它的派生类（因为类不知道谁继承它）。所以它使用的VPTR必须是对于这个类的VTABLE。而且，只要它是最后的构造函数调用，那么在这个对象的生命期内，VPTR将保持被初始化为指向这个VTABLE, 但如果接着还有一个更晚派生的构造函数被调用，这个构造函数又将设置VPTR指向它的 VTABLE，等.直到最后的构造函数结束。VPTR的状态是由被最后调用的构造函数确定的。这就是为什么构造函数调用是从基类到更加派生类顺序的另一个理由。但是，当这一系列构造函数调用正发生时，每个构造函数都已经设置VPTR指向它自己的VTABLE。如果函数调用使用虚机制，它将只产生通过它自己的VTABLE的调用，而不是最后的VTABLE（所有构造函数被调用后才会有最后的VTABLE）。            </p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/C/">C++</a><a href="/tags/虚函数/">虚函数</a>
+  </div>
+
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/learning/">learning</a>
+</div>
+
+
+
+<div class="article-share" id="share">
+
+  <div data-url="http://google.com/2014/03/09/虚函数/" data-title="C++虚函数 | 琳峰" data-tsina="只要-心-够决" class="share clearfix">
+  </div>
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2014/03/10/多关键字排序/" title="多个关键字排序化成单个关键字排序">
+  <strong>PREVIOUS:</strong><br/>
+  <span>
+  多个关键字排序化成单个关键字排序</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2014/03/09/c++内存分配/"  title="C++中内存存储区分配情况">
+ <strong>NEXT:</strong><br/> 
+ <span>C++中内存存储区分配情况
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section class="comment">
+	<div class="ds-thread"></div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+  
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+			<li><a href="/categories/basketball/" title="basketball">basketball<sup>4</sup></a></li>
+		
+			<li><a href="/categories/learning/" title="learning">learning<sup>32</sup></a></li>
+		
+			<li><a href="/categories/life/" title="life">life<sup>3</sup></a></li>
+		
+			<li><a href="/categories/为你读诗/" title="为你读诗">为你读诗<sup>2</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			<li><a href="/tags/C/" title="C++">C++<sup>6</sup></a></li>
+		
+			<li><a href="/tags/Mongodb/" title="Mongodb">Mongodb<sup>3</sup></a></li>
+		
+			<li><a href="/tags/Ubuntu/" title="Ubuntu">Ubuntu<sup>2</sup></a></li>
+		
+			<li><a href="/tags/git/" title="git">git<sup>1</sup></a></li>
+		
+			<li><a href="/tags/http/" title="http">http<sup>1</sup></a></li>
+		
+			<li><a href="/tags/ios/" title="ios">ios<sup>1</sup></a></li>
+		
+			<li><a href="/tags/markdown/" title="markdown">markdown<sup>1</sup></a></li>
+		
+			<li><a href="/tags/node-js/" title="node.js">node.js<sup>9</sup></a></li>
+		
+			<li><a href="/tags/web/" title="web">web<sup>2</sup></a></li>
+		
+			<li><a href="/tags/数据库/" title="数据库">数据库<sup>1</sup></a></li>
+		
+			<li><a href="/tags/数据结构/" title="数据结构">数据结构<sup>5</sup></a></li>
+		
+			<li><a href="/tags/文件操作/" title="文件操作">文件操作<sup>1</sup></a></li>
+		
+			<li><a href="/tags/篮球/" title="篮球">篮球<sup>4</sup></a></li>
+		
+			<li><a href="/tags/虚函数/" title="虚函数">虚函数<sup>1</sup></a></li>
+		
+			<li><a href="/tags/设计模式/" title="设计模式">设计模式<sup>1</sup></a></li>
+		
+			<li><a href="/tags/诗歌/" title="诗歌">诗歌<sup>2</sup></a></li>
+		
+			<li><a href="/tags/随笔/" title="随笔">随笔<sup>3</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  <div class="rsspart">
+	<a href="null" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hi,I&#39;m linfeng.For now I&#39;m a student at college. <br/>
+			Node.js is my interest now which I&#39;d like to share with you at this blog.</p>
+	</section>
+	 
+	<div class="social-font clearfix">
+		
+		<a href="http://weibo.com/2088462463" target="_blank" title="weibo"></a>
+		
+		
+		
+		<a href="https://github.com/fengliner" target="_blank" title="github"></a>
+		
+		
+		
+	</div>
+		<p class="copyright">Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a> © 2015 
+		
+		<a href="http://google.com" target="_blank" title="linfeng">linfeng</a>
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#share"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="#textlogo" class="article-back-to-top" title="Top"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="QRcode"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="Weibo"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"null"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+  </body>
+</html>
