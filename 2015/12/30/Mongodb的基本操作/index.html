@@ -7,18 +7,24 @@
   <title>Mongodb的基本操作 | 琳峰</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="成功启动Mongodb后，再打开一个命令行窗口输入mongo，就可以进行数据库的一些操作了。输入help可以看到基本操作命令：
-show dbs:显示数据库列表show collections:显示当前数据库中的集合（类似于关系数据库中的表）show users:显示用户">
+show dbs:显示数据库列表            
+show collections:显示当前数据库中的集合（类似于关系数据库中的表）             
+show users:显示用户">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Mongodb的基本操作">
 <meta property="og:url" content="http://google.com/2015/12/30/Mongodb的基本操作/index.html">
 <meta property="og:site_name" content="琳峰">
 <meta property="og:description" content="成功启动Mongodb后，再打开一个命令行窗口输入mongo，就可以进行数据库的一些操作了。输入help可以看到基本操作命令：
-show dbs:显示数据库列表show collections:显示当前数据库中的集合（类似于关系数据库中的表）show users:显示用户">
-<meta property="og:updated_time" content="2015-12-30T10:38:33.000Z">
+show dbs:显示数据库列表            
+show collections:显示当前数据库中的集合（类似于关系数据库中的表）             
+show users:显示用户">
+<meta property="og:updated_time" content="2015-12-30T14:53:42.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Mongodb的基本操作">
 <meta name="twitter:description" content="成功启动Mongodb后，再打开一个命令行窗口输入mongo，就可以进行数据库的一些操作了。输入help可以看到基本操作命令：
-show dbs:显示数据库列表show collections:显示当前数据库中的集合（类似于关系数据库中的表）show users:显示用户">
+show dbs:显示数据库列表            
+show collections:显示当前数据库中的集合（类似于关系数据库中的表）             
+show users:显示用户">
   
     <link rel="alternative" href="/atom.xml" title="琳峰" type="application/atom+xml">
   
@@ -229,15 +235,36 @@ show dbs:显示数据库列表show collections:显示当前数据库中的集合
     <div class="article-entry" itemprop="articleBody">
       
         <p>成功启动Mongodb后，再打开一个命令行窗口输入mongo，就可以进行数据库的一些操作了。<br>输入help可以看到基本操作命令：</p>
-<p>show dbs:显示数据库列表<br>show collections:显示当前数据库中的集合（类似于关系数据库中的表）<br>show users:显示用户<br><a id="more"></a>   </p>
-<p>use <db name="">:切换（当没有时会新创建一个）当前数据库<br>db.help():显示数据库操作命令，里面有很多命令<br>db.foo.help():显示集合操作命令，foo指的是当前数据库下，一个叫foo的集合，并非真正意义上的命令<br>db.foo.find():对于当前数据库中的foo集合进行数据查找(由于没有条件，会列出所有数据)<br>db.foo.find().toArray():一数组的形式查看foo中的数据集合<br>db.foo.findOne():查询第一条数据<br>db.foo.find().limit(5):查询前五条记录<br>db.foo.find().skip(10):查询集合中第10条以后的记录<br>db.foo.find({a:1}):对于当前数据库中的foo集合进行查找，条件是数据中有一个属性叫a，且a的值为1<br>db.dropDatabase()：删除当前使用数据库                    </db></p>
-<p>修改、添加、删除集合数据</p>
-<p>1、添加<br>db.users.save({name:”zhangsan”,age:25,sex:true});<br>添加的数据的数据列，没有固定，根据添加的数据为准</p>
-<p>2、修改<br>db.users.update({age:25},{$set:{name:”changeName”}},false,true);<br>相当于：update users set name = “changeName” where age = 25;     </p>
-<p>3、删除<br>db.users.remove({age:132});              </p>
-<p>备份与还原<br>MongoDB提供了备份和还原，分别是MongoDB下载目录下的mongodump.exe和mongorestore.exe文件（windows系统）  </p>
-<p>1、备份：<br>mongodump -h dbhost -d dbname -o dbdirectory<br>-h: MongoDB所在服务器地址，例如：127.0.0.1<br>-d: 需要备份的数据库实例（名称）,例如：test<br>-o: 备份的数据存放位置，例如：c:\data\dump，当然该目录需要提前建立，在备份完成后，系统自动在dump目录下建立一个test目录，这个目录里面存放该数据库实例的备份数据<br>详细用法，可参考mongodump –help        </p>
-<p>2、还原<br>mongorestore -h dbhost -d dbname –directoryperdb dbdirectory<br>-h: Mongodb所在服务器地址<br>-d: 需要恢复的数据库实例，例如：test,当然这个名称也可以和备份时候的不一样，比如test2<br>–directoryperdb: 备份数据所在位置，例如c:\data\dump\test,注意这里和备份时候的区别，多加了个test               </p>
+<pre><code>show dbs:显示数据库列表            
+show collections:显示当前数据库中的集合（类似于关系数据库中的表）             
+show users:显示用户               
+</code></pre><a id="more"></a>   
+<pre><code>use &lt;db name&gt;:切换（当没有时会新创建一个）当前数据库                   
+db.help():显示数据库操作命令，里面有很多命令                                          
+db.foo.help():显示集合操作命令，foo指的是当前数据库下，一个叫foo的集合，并非真正意义上的命令           
+db.foo.find():对于当前数据库中的foo集合进行数据查找(由于没有条件，会列出所有数据)             
+db.foo.find().toArray():一数组的形式查看foo中的数据集合     
+db.foo.findOne():查询第一条数据             
+db.foo.find().limit(5):查询前五条记录             
+db.foo.find().skip(10):查询集合中第10条以后的记录                     
+db.foo.find({a:1}):对于当前数据库中的foo集合进行查找，条件是数据中有一个属性叫a，且a的值为1 
+db.dropDatabase()：删除当前使用数据库                    
+</code></pre><p>修改、添加、删除集合数据</p>
+<p>1、添加        </p>
+<pre><code>db.users.save({name:&quot;zhangsan&quot;,age:25,sex:true});   
+</code></pre><p>添加的数据的数据列，没有固定，根据添加的数据为准</p>
+<p>2、修改          </p>
+<pre><code>db.users.update({age:25},{$set:{name:&quot;changeName&quot;}},false,true);                
+</code></pre><p>相当于：update users set name = “changeName” where age = 25;     </p>
+<p>3、删除    </p>
+<pre><code>db.users.remove({age:132});              
+</code></pre><p>备份与还原<br>MongoDB提供了备份和还原，分别是MongoDB下载目录下的mongodump.exe和mongorestore.exe文件（windows系统）  </p>
+<p>1、备份：    </p>
+<pre><code>mongodump -h dbhost -d dbname -o dbdirectory              
+</code></pre><p>-h: MongoDB所在服务器地址，例如：127.0.0.1<br>-d: 需要备份的数据库实例（名称）,例如：test<br>-o: 备份的数据存放位置，例如：c:\data\dump，当然该目录需要提前建立，在备份完成后，系统自动在dump目录下建立一个test目录，这个目录里面存放该数据库实例的备份数据<br>详细用法，可参考mongodump –help        </p>
+<p>2、还原          </p>
+<pre><code>mongorestore -h dbhost -d dbname --directoryperdb dbdirectory                
+</code></pre><p>-h: Mongodb所在服务器地址<br>-d: 需要恢复的数据库实例，例如：test,当然这个名称也可以和备份时候的不一样，比如test2<br>–directoryperdb: 备份数据所在位置，例如c:\data\dump\test,注意这里和备份时候的区别，多加了个test               </p>
 <p>参考：<a href="http://www.cnblogs.com/TankMa/archive/2011/06/08/2074947.html" target="_blank" rel="external">MongoDB基本使用</a><br>      <a href="http://www.cnblogs.com/libingql/archive/2011/06/09/2076440.html" target="_blank" rel="external">MongoDB数据表基本操作</a><br>      <a href="http://www.jb51.net/article/40285.htm" target="_blank" rel="external">MongoDB的备份与还原</a>            </p>
 
       
