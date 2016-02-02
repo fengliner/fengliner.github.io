@@ -4,21 +4,18 @@
   <meta charset="utf-8">
   
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
-  <title>浅谈C/C++中文件操作 | 琳峰</title>
+  <title>PostgreSql学习笔记之索引 | 琳峰</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="#fopen函数功能：打开一个文件函数原型：FILE fopen(const char path,const char *mode);所需库：返回值：文件顺利打开后，指向该流的文件指针就会被返回。如果文件打开失败则返回NULL,并把错误代码存在errno中。      
-一般而言，打开文件后会做一些文件读取或写入的动作，若打开文件失败，接下来的读写动作也无法顺利进行，所以一般在fopen()之后要">
+  <meta name="description" content="索引是对数据库中一列或几列的数据按照特定的数据结构进行排序保存的一种方式。使用索引可以加快数据库查询或排序时的速度。如果不使用索引那么查询数据时就会进行全表扫描也就是每条数据读取一遍，而使用索引可以快速找到要查询的数据，不用扫描所有数据。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="浅谈C/C++中文件操作">
-<meta property="og:url" content="http://google.com/2014/03/31/文件操作/index.html">
+<meta property="og:title" content="PostgreSql学习笔记之索引">
+<meta property="og:url" content="http://google.com/2016/02/02/PostgreSql学习笔记之索引/index.html">
 <meta property="og:site_name" content="琳峰">
-<meta property="og:description" content="#fopen函数功能：打开一个文件函数原型：FILE fopen(const char path,const char *mode);所需库：返回值：文件顺利打开后，指向该流的文件指针就会被返回。如果文件打开失败则返回NULL,并把错误代码存在errno中。      
-一般而言，打开文件后会做一些文件读取或写入的动作，若打开文件失败，接下来的读写动作也无法顺利进行，所以一般在fopen()之后要">
-<meta property="og:updated_time" content="2015-12-30T10:33:34.000Z">
+<meta property="og:description" content="索引是对数据库中一列或几列的数据按照特定的数据结构进行排序保存的一种方式。使用索引可以加快数据库查询或排序时的速度。如果不使用索引那么查询数据时就会进行全表扫描也就是每条数据读取一遍，而使用索引可以快速找到要查询的数据，不用扫描所有数据。">
+<meta property="og:updated_time" content="2016-02-02T10:20:39.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="浅谈C/C++中文件操作">
-<meta name="twitter:description" content="#fopen函数功能：打开一个文件函数原型：FILE fopen(const char path,const char *mode);所需库：返回值：文件顺利打开后，指向该流的文件指针就会被返回。如果文件打开失败则返回NULL,并把错误代码存在errno中。      
-一般而言，打开文件后会做一些文件读取或写入的动作，若打开文件失败，接下来的读写动作也无法顺利进行，所以一般在fopen()之后要">
+<meta name="twitter:title" content="PostgreSql学习笔记之索引">
+<meta name="twitter:description" content="索引是对数据库中一列或几列的数据按照特定的数据结构进行排序保存的一种方式。使用索引可以加快数据库查询或排序时的速度。如果不使用索引那么查询数据时就会进行全表扫描也就是每条数据读取一遍，而使用索引可以快速找到要查询的数据，不用扫描所有数据。">
   
     <link rel="alternative" href="/atom.xml" title="琳峰" type="application/atom+xml">
   
@@ -167,11 +164,11 @@
 	</div>
 </nav>
 
-      <div class="body-wrap"><article id="post-文件操作" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-PostgreSql学习笔记之索引" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2014/03/31/文件操作/" class="article-date">
-  	<time datetime="2014-03-31T13:20:07.000Z" itemprop="datePublished">2014-03-31</time>
+      <a href="/2016/02/02/PostgreSql学习笔记之索引/" class="article-date">
+  	<time datetime="2016-02-02T10:00:24.000Z" itemprop="datePublished">2016-02-2</time>
 </a>
     </div>
   
@@ -184,7 +181,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      浅谈C/C++中文件操作
+      PostgreSql学习笔记之索引
     </h1>
   
 
@@ -193,7 +190,7 @@
       <div class="article-info article-info-post">
         
 	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/C/">C++</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/文件操作/">文件操作</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/postgresql/">postgresql</a></li></ul>
 	</div>
 
         
@@ -208,86 +205,36 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>#fopen<br>函数功能：打开一个文件<br>函数原型：FILE <em>fopen(const char </em>path,const char *mode);<br>所需库：<stdio.h><br>返回值：文件顺利打开后，指向该流的文件指针就会被返回。如果文件打开失败则返回NULL,并把错误代码存在errno中。      </stdio.h></p>
-<p>一般而言，打开文件后会做一些文件读取或写入的动作，若打开文件失败，接下来的读写动作也无法顺利进行，所以一般在fopen()之后要作错误判断及处理。<br><a id="more"></a>   </p>
-<p>程序示例：  </p>
-<pre><code>#include&lt;stdio.h&gt;
-#define F_PATH &quot;d:\\myfile\\file.dat&quot;
-int main()
-{
-    FILE *fp=NULL;        //需要注意
-    fp=fopen(F_PATH,&quot;r&quot;);  //也可以直接用文件名代替F_PATH
-    if(NULL==fp)
-    {
-        return -1;        //要返回错误代码
-    }
-    fclose(fp);
-    fp=NULL;             //需要指向空，否则会指向原打开文件地址
-    return 0;
-}
-</code></pre><p>注意：<br>在文件操作时，需要注意以下几点问题：          </p>
-<ol>
-<li>在定义文件指针时，要将文件指针指向空，如FILE *fp=NULL;</li>
-<li>文件操作完成后，需要将文件关闭，一定要注意，否则会造成文件所占用内存泄露和在下次访问文件时出现问题。          </li>
-<li>文件关闭后，需要将文件指针指向空，这样做会防止出现游离指针，而对整个工程造成不必要的麻烦。</li>
-</ol>
-<p>#fprintf</p>
-<p>fprintf是C/C++中的一个格式化写，其作用是格式化输出到一个流(比如stderr)或文件中；<br>函数原型：int fprintf(FILE <em>stream,const char </em>format,[argument]);<br>所需库： <stdio.h><br>fprintf()函数根据指定的format(格式)发送信息(参数)到由stream(流)指定的文件；<br>返回值：若成功则返回输出字符数，若输出出错则返回负值</stdio.h></p>
-<p>程序示例<br>示例一： </p>
-<pre><code>#include &lt;stdio.h&gt;
-int main()
-{
-    FILE *in,*out;
-    if((in=fopen(&quot;\\AUTOEXEC.BAT&quot;,&quot;rt&quot;))==NULL)
-    {
-        fprintf(stderr,&quot;Cannot open input file.\n&quot;); //输出到流stderr(标准错误输出，类似标准输入stdin、输出stdout)
-        return 1;
-    }
-    if((out=fopen(&quot;\\AUTOEXEC.BAT&quot;,&quot;wt&quot;))==NULL)
-    {
-        fprintf(stderr,&quot;Cannot open output file.\n&quot;);
-        return 1;
-    }
-    while(!feof(in))
-        fputc(fgetc(in),out);
-    fclose(in);
-    fclose(out);
-    return 0;
-}
-</code></pre><p>示例二   </p>
-<pre><code>#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
-#include &lt;process.h&gt;
-FILE *stream;
-int main()
-{
-    int i=10;
-    double fp=1.5;
-    char s[]=&quot;this is a string&quot;;
-    char c= &apos;\n&apos;;
-    stream=fopen(&quot;fprintf.out&quot;,&quot;w&quot;);
-    fprintf(stream,&quot;%s%c&quot;,s,c);
-    fprintf(stream,&quot;%d\n&quot;,i);
-    fprintf(stream,&quot;%f\n&quot;,fp);
-    fclose(stream);
-    system(&quot;type fprintf.out&quot;);        //在屏幕上打印出fprintf.out中的内容
-    return 0;
-}
-
-屏幕输出：    
-this is a string      
-10      
-1.500000
-</code></pre><p>#fscanf</p>
-<p>功能：从一个流中执行格式化输入，fscanf遇到空格和换行时结束，注意空格时也结束。这与fgets有区别，fgets遇到空格不结束<br>用法：int fscanf(FILE <em>stream,const char </em>format,[argument…]);<br>FILE <em>stream:文件指针<br>char </em>format: 格式字符串<br>[argument…]: 输入列表<br>例如：       </p>
-<pre><code>FILE *fp;
-char a[10];
-int b;
-double c;
-fscanf(fp,&quot;%s%d%lf&quot;,a,&amp;b,&amp;c)
-</code></pre><p>返回值：整形，成功读入的参数的个数</p>
-<p>#fclose</p>
-<p>功能：关闭一个流。注意，使用fclose()函数就可以把缓冲区内最后剩余的数据输出到磁盘文件中，并释放文件指针和有关的缓冲区。<br>用法：int fclose(FILE *stream);<br>如果流成功关闭，fclose返回0，否则返回EOF(-1)</p>
+        <p>索引是对数据库中一列或几列的数据按照特定的数据结构进行排序保存的一种方式。使用索引可以加快数据库查询或排序时的速度。如果不使用索引那么查询数据时就会进行全表扫描也就是每条数据读取一遍，而使用索引可以快速找到要查询的数据，不用扫描所有数据。<br><a id="more"></a></p>
+<h3 id="u7D22_u5F15_u7684_u4F18_u70B9"><a href="#u7D22_u5F15_u7684_u4F18_u70B9" class="headerlink" title="索引的优点"></a>索引的优点</h3><ul>
+<li>可以大大提高数据查询的速度</li>
+<li>在实现数据的参考完整性方面，可以加快表和表之间的连接</li>
+<li>在分组和排序时，可以减少分组和排序的时间</li>
+</ul>
+<p><strong>当然，索引也有缺点，所以我们不能在表中随意的创建索引</strong></p>
+<h3 id="u7D22_u5F15_u7684_u7F3A_u70B9"><a href="#u7D22_u5F15_u7684_u7F3A_u70B9" class="headerlink" title="索引的缺点"></a>索引的缺点</h3><ul>
+<li>创建和维护索引需要耗费时间，数据量越大耗费时间也越长</li>
+<li>索引需要占用额外的磁盘空间，如果索引量很大又有大量索引，那么索引文件大小增加很快（深有体会）</li>
+<li>对表中数据改动的时候，索引需要动态维护，降低了数据操作的速度</li>
+</ul>
+<h3 id="u7D22_u5F15_u7C7B_u578B"><a href="#u7D22_u5F15_u7C7B_u578B" class="headerlink" title="索引类型"></a>索引类型</h3><p>PostgreSQL提供的索引类型有： B-tree、Hash、GiST和GIN。大多数情况下，我们使用比较常用的B-tree索引。</p>
+<ul>
+<li>B-tree索引适合处理那么些能够按照顺序存储的数据，它适合用于比较操作时经常用到的字段。</li>
+<li>Hash索引只能处理简单的等于比较。当一个字段涉及到使用“=”操作符进行比较时查询规划器会考虑使用Hash索引。</li>
+<li>GiST索引不只是一种索引，还是一种架构，可以实现很多不同的索引策略。所以，GiST索引可以使用的特定操作符类型高度依赖于索引策略(操作符类)。</li>
+<li>GIN索引是反转索引，它可以处理包含多个键的值(比如数组)。和GiST索引类似，GIN支持用户定义的索引策略，GIN索引可以使用的特定操作符类型根据索引策略不同而不同。</li>
+</ul>
+<h3 id="u521B_u5EFA_u3001_u5220_u9664_u7D22_u5F15"><a href="#u521B_u5EFA_u3001_u5220_u9664_u7D22_u5F15" class="headerlink" title="创建、删除索引"></a>创建、删除索引</h3><pre><code>create index idx_name on table_name(column_name); #创建B-tree索引
+create index idx_name on table_name using hash (column_name); #创建Hash索引
+drop index idx_name; #删除索引
+</code></pre><h3 id="u7D22_u5F15_u7684_u8BBE_u8BA1_u539F_u5219"><a href="#u7D22_u5F15_u7684_u8BBE_u8BA1_u539F_u5219" class="headerlink" title="索引的设计原则"></a>索引的设计原则</h3><ul>
+<li>索引不是越多越好，索引太多会影响insert,delete,update的性能</li>
+<li>对于经常查询的字段应该建立索引</li>
+<li>避免对经常更新的表进行过多的索引</li>
+<li>数据量很小的表最好不要使用索引，由于数量少，扫描表的时间可能比查询索引的时间要短，索引没有效果</li>
+<li>不要在不同值少的列上建立索引，例如，表示性别的字段一般只有‘男’和‘女’两个不同值，如果建立索引会严重降低更新速度</li>
+<li>在频繁进行排序或分组的列上建立索引时，如果待排序的列有多个，可在这些列上建立联合索引</li>
+</ul>
 
       
     </div>
@@ -297,18 +244,9 @@ fscanf(fp,&quot;%s%d%lf&quot;,a,&amp;b,&amp;c)
     
 <nav id="article-nav">
   
-    <a href="/2014/04/02/折半查找/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption"><</strong>
-      <div class="article-nav-title">
-        
-          折半查找
-        
-      </div>
-    </a>
   
-  
-    <a href="/2014/03/24/单链表/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">单链表</div>
+    <a href="/2016/02/01/json和jsonp的那些事/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">JSON和JSONP的那些事</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
@@ -343,7 +281,7 @@ fscanf(fp,&quot;%s%d%lf&quot;,a,&amp;b,&amp;c)
 
 <div class="duoshuo">
 	<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="文件操作" data-title="浅谈C/C++中文件操作" data-url="http://google.com/2014/03/31/文件操作/"></div>
+	<div class="ds-thread" data-thread-key="PostgreSql学习笔记之索引" data-title="PostgreSql学习笔记之索引" data-url="http://google.com/2016/02/02/PostgreSql学习笔记之索引/"></div>
 	<!-- 多说评论框 end -->
 	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 	<script type="text/javascript">
