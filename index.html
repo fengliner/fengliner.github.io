@@ -103,7 +103,7 @@
 				
 				<section class="switch-part switch-part2">
 					<div class="widget tagcloud" id="js-tagcloud">
-						<a href="/tags/C/" style="font-size: 18px;">C++</a> <a href="/tags/Mongodb/" style="font-size: 14px;">Mongodb</a> <a href="/tags/Ubuntu/" style="font-size: 12px;">Ubuntu</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/http/" style="font-size: 10px;">http</a> <a href="/tags/ios/" style="font-size: 10px;">ios</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/node-js/" style="font-size: 20px;">node.js</a> <a href="/tags/postgresql/" style="font-size: 12px;">postgresql</a> <a href="/tags/web/" style="font-size: 14px;">web</a> <a href="/tags/数据库/" style="font-size: 10px;">数据库</a> <a href="/tags/数据结构/" style="font-size: 16px;">数据结构</a> <a href="/tags/文件操作/" style="font-size: 10px;">文件操作</a> <a href="/tags/篮球/" style="font-size: 16px;">篮球</a> <a href="/tags/虚函数/" style="font-size: 10px;">虚函数</a> <a href="/tags/设计模式/" style="font-size: 10px;">设计模式</a> <a href="/tags/诗歌/" style="font-size: 12px;">诗歌</a> <a href="/tags/随笔/" style="font-size: 14px;">随笔</a>
+						<a href="/tags/C/" style="font-size: 18px;">C++</a> <a href="/tags/Mongodb/" style="font-size: 14px;">Mongodb</a> <a href="/tags/Ubuntu/" style="font-size: 12px;">Ubuntu</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/http/" style="font-size: 10px;">http</a> <a href="/tags/ios/" style="font-size: 10px;">ios</a> <a href="/tags/javascript/" style="font-size: 10px;">javascript</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/node-js/" style="font-size: 20px;">node.js</a> <a href="/tags/postgresql/" style="font-size: 12px;">postgresql</a> <a href="/tags/web/" style="font-size: 14px;">web</a> <a href="/tags/数据库/" style="font-size: 10px;">数据库</a> <a href="/tags/数据结构/" style="font-size: 16px;">数据结构</a> <a href="/tags/文件操作/" style="font-size: 10px;">文件操作</a> <a href="/tags/篮球/" style="font-size: 16px;">篮球</a> <a href="/tags/虚函数/" style="font-size: 10px;">虚函数</a> <a href="/tags/设计模式/" style="font-size: 10px;">设计模式</a> <a href="/tags/诗歌/" style="font-size: 12px;">诗歌</a> <a href="/tags/随笔/" style="font-size: 14px;">随笔</a>
 					</div>
 				</section>
 				
@@ -164,6 +164,70 @@
 </nav>
 
       <div class="body-wrap">
+  
+    <article id="post-javascript常见面试题总结-md" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/06/28/javascript常见面试题总结-md/" class="article-date">
+  	<time datetime="2016-06-28T08:22:13.000Z" itemprop="datePublished">2016-06-28</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/06/28/javascript常见面试题总结-md/">javascript常见面试题总结.md</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="u95EE_u98981_uFF1Athis"><a href="#u95EE_u98981_uFF1Athis" class="headerlink" title="问题1：this"></a>问题1：this</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> fullname = <span class="string">'paul'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> obj = &#123;</span><br><span class="line"></span><br><span class="line">  fullname: <span class="string">'kobe'</span>,</span><br><span class="line"></span><br><span class="line">  prop: &#123;</span><br><span class="line"></span><br><span class="line">    fullname: <span class="string">'bryant'</span>,</span><br><span class="line"></span><br><span class="line">    getFullname: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">this</span>.fullname;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(obj.prop.getFullname());</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> test = obj.prop.getFullname;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(test());</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/">javascript</a></li></ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/learning/">learning</a>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a  href="/2016/06/28/javascript常见面试题总结-md/#more">more >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
   
     <article id="post-拿起篮球，走向球场" class="article article-type-post" itemscope itemprop="blogPost">
   
@@ -427,75 +491,9 @@
 
 
   
-    <article id="post-Eventproxy控制并发" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2015/12/31/Eventproxy控制并发/" class="article-date">
-  	<time datetime="2015-12-31T02:11:03.000Z" itemprop="datePublished">2015-12-31</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/12/31/Eventproxy控制并发/">Eventproxy控制并发</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>用js写过异步的同学应该知道(很尴尬，我没写过)，如果你要并发异步获取两三个地址的数据，并且要在获取到数据之后，对这些数据一起进行利用的话，常见的写法是自己维护一个计数器。</p>
-<p>先定义一个var count=0，然后每次抓取成功以后，就count++。如果你是要抓取三个源的数据，由于你根本不知道这些异步操作到底谁先完成，那么每次当抓取成功的时候，就判断一下count===3。当值为真时，使用另一个函数继续完成操作。</p>
-<p>而 eventproxy 就起到了这个计数器的作用，它来帮你管理到底这些异步操作是否完成，完成之后，它会自动调用你提供的处理函数，并将抓取到的数据当参数传过来。<br>
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/node-js/">node.js</a></li></ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-	<a class="article-category-link" href="/categories/learning/">learning</a>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a  href="/2015/12/31/Eventproxy控制并发/#more">more >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
     </nav>
   
 </div>
