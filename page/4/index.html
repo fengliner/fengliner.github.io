@@ -103,7 +103,7 @@
 				
 				<section class="switch-part switch-part2">
 					<div class="widget tagcloud" id="js-tagcloud">
-						<a href="/tags/C/" style="font-size: 18px;">C++</a> <a href="/tags/Mongodb/" style="font-size: 14px;">Mongodb</a> <a href="/tags/Ubuntu/" style="font-size: 12px;">Ubuntu</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/http/" style="font-size: 10px;">http</a> <a href="/tags/ios/" style="font-size: 10px;">ios</a> <a href="/tags/javascript/" style="font-size: 10px;">javascript</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/node-js/" style="font-size: 20px;">node.js</a> <a href="/tags/postgresql/" style="font-size: 12px;">postgresql</a> <a href="/tags/web/" style="font-size: 14px;">web</a> <a href="/tags/数据库/" style="font-size: 10px;">数据库</a> <a href="/tags/数据结构/" style="font-size: 16px;">数据结构</a> <a href="/tags/文件操作/" style="font-size: 10px;">文件操作</a> <a href="/tags/篮球/" style="font-size: 16px;">篮球</a> <a href="/tags/虚函数/" style="font-size: 10px;">虚函数</a> <a href="/tags/设计模式/" style="font-size: 10px;">设计模式</a> <a href="/tags/诗歌/" style="font-size: 12px;">诗歌</a> <a href="/tags/随笔/" style="font-size: 14px;">随笔</a>
+						<a href="/tags/C/" style="font-size: 18px;">C++</a> <a href="/tags/Mongodb/" style="font-size: 14px;">Mongodb</a> <a href="/tags/Ubuntu/" style="font-size: 12px;">Ubuntu</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/http/" style="font-size: 10px;">http</a> <a href="/tags/ios/" style="font-size: 10px;">ios</a> <a href="/tags/javascript/" style="font-size: 12px;">javascript</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/node-js/" style="font-size: 20px;">node.js</a> <a href="/tags/postgresql/" style="font-size: 12px;">postgresql</a> <a href="/tags/web/" style="font-size: 14px;">web</a> <a href="/tags/数据库/" style="font-size: 10px;">数据库</a> <a href="/tags/数据结构/" style="font-size: 16px;">数据结构</a> <a href="/tags/文件操作/" style="font-size: 10px;">文件操作</a> <a href="/tags/篮球/" style="font-size: 16px;">篮球</a> <a href="/tags/虚函数/" style="font-size: 10px;">虚函数</a> <a href="/tags/设计模式/" style="font-size: 10px;">设计模式</a> <a href="/tags/诗歌/" style="font-size: 12px;">诗歌</a> <a href="/tags/随笔/" style="font-size: 14px;">随笔</a>
 					</div>
 				</section>
 				
@@ -164,6 +164,72 @@
 </nav>
 
       <div class="body-wrap">
+  
+    <article id="post-exports与moduleexports的关系和区别" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/02/27/exports与moduleexports的关系和区别/" class="article-date">
+  	<time datetime="2015-02-27T06:52:01.000Z" itemprop="datePublished">2015-02-27</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/02/27/exports与moduleexports的关系和区别/">exports与module.exports的关系和区别</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>一直比较纠结exports与module.exports的关系，在查阅资料后，终于有了一些清醒的认识。简单说，exports只是对module.exports对象的引用。module.exports才是真正的接口，exports只不过是它的一个辅助工具，最终返回给调用的是module.exports而不是exports。</p>
+<p>注：通过console.log(module)我们可以看到module这个对象的属性，其中有一个属性就是exports，初始化为空对象，这里的module.exports就是这个空对象。而exports是另一个对象，它只是对module.exports的引用。</p>
+<p>参考：<a href="http://www.cnblogs.com/pigtail/archive/2013/01/14/2859555.html">http://www.cnblogs.com/pigtail/archive/2013/01/14/2859555.html</a><br><a href="https://cnodejs.org/topic/5231a630101e574521e45ef8">https://cnodejs.org/topic/5231a630101e574521e45ef8</a><br>
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/node-js/">node.js</a></li></ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/learning/">learning</a>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a  href="/2015/02/27/exports与moduleexports的关系和区别/#more">more >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
   
     <article id="post-http协议小解" class="article article-type-post" itemscope itemprop="blogPost">
   
@@ -412,75 +478,6 @@
       
         <p class="article-more-link">
           <a  href="/2014/11/26/c++知识点总结/#more">more >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-node.js后台运行" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2014/11/20/node.js后台运行/" class="article-date">
-  	<time datetime="2014-11-20T09:10:45.000Z" itemprop="datePublished">2014-11-20</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/11/20/node.js后台运行/">node.js后台运行</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>node.js一般是当成一条用户命令去执行，当断开链接，应用也就停了。如何让node应用当成服务，在后台执行呢？由于最近要实现一个定时发送邮件的功能，所以查了一下，让node在后台运行的方法。</p>
-<h2 id="nohup"><a href="#nohup" class="headerlink" title="nohup"></a>nohup</h2><p>最简单的办法就是使用nohup命令</p>
-<pre><code>nohup node app.js &amp;
-</code></pre><p>linux下一般想让某个程序在后台运行，很多都是使用&amp;在程序结尾来让程序自动运行。比如我们要运行mysql在后台：</p>
-<pre><code>/usr/local/mysql/bin/mysqld_safe --user=mysql &amp;
-</code></pre>
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/node-js/">node.js</a></li></ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-	<a class="article-category-link" href="/categories/learning/">learning</a>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a  href="/2014/11/20/node.js后台运行/#more">more >></a>
         </p>
       
       <div class="clearfix"></div>
