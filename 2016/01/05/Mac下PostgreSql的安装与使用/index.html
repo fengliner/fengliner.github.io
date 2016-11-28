@@ -20,7 +20,7 @@ brew install postgresql
 稍等片刻，PostgreSQL 就安装完成。接下来就是初始数据库，在终端执行一下命令，初始配置 PostgreSQL：
 initdb /usr/local/var/postgres -E utf8
 上面指定 “/usr/local/var/postgres” 为 PostgreS">
-<meta property="og:updated_time" content="2016-01-04T16:33:52.000Z">
+<meta property="og:updated_time" content="2016-09-02T06:19:38.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Mac下PostgreSql的安装与使用">
 <meta name="twitter:description" content="安装在mac下，可以利用homebrew直接安装PostgreSql:
@@ -261,6 +261,10 @@ launchctl load ~/Library/LaunchAgents/homebrew.mxcl.postgresql.plist
 <pre><code>DROP DATABASE dbname;
 </code></pre><p>或者利用dropdb指令，在终端上删除数据库：</p>
 <pre><code>dropdb -U user dbname
+</code></pre><p>备份：</p>
+<pre><code>pg_dump dbname &gt; /usr/local/psql/backup/pg.sql
+</code></pre><p>恢复：</p>
+<pre><code>psql newdb &lt; /usr/local/psql/backup/pg.sql
 </code></pre><p>转载自：<a href="http://dhq.me/mac-postgresql-install-usage" target="_blank" rel="external">http://dhq.me/mac-postgresql-install-usage</a></p>
 
       

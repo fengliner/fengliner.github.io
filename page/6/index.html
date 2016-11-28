@@ -165,6 +165,71 @@
 
       <div class="body-wrap">
   
+    <article id="post-将二叉查找树变为有序的双向链表" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2014/09/21/将二叉查找树变为有序的双向链表/" class="article-date">
+  	<time datetime="2014-09-21T03:44:18.000Z" itemprop="datePublished">2014-09-21</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/09/21/将二叉查找树变为有序的双向链表/">将二叉查找树变为有序的双向链表</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>要求不能创建新节点，只调整指针                  </p>
+<p>递归解法：<br>（1） 如果二叉查找树为空，不需要转换，对应双向链表的第一个节点是NULL，最后一个节点是NULL<br>（2） 如果二叉查找树不为空：<br>  如果左子树为空，对应双向有序链表的第一个节点是根节点，左边不需要其他操作<br>  如果左子树不为空，转换左子树，二叉查找树对应双向有序链表的的第一个节点就是左子树转换后双向有序链表的第一个节点，同时将根节点和左子树转换后的双向有序链表的最后一个节点连接<br>  如果右子树为空，对应双向有序链表的最后一个节点是根节点，右边不需要其他操作<br>  如果右子树不为空，对应双向有序链表的最后一个节点就是右子树转换后双向有序链表的最后一个节点，同时将根节点和右子树转换后的双向有序链表的第一个节点连接<br>
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数据结构/">数据结构</a></li></ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/learning/">learning</a>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a  href="/2014/09/21/将二叉查找树变为有序的双向链表/#more">more >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-各种内部排序方法的比较" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -404,70 +469,6 @@
       
         <p class="article-more-link">
           <a  href="/2014/08/10/初见nodejs/#more">more >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-ios开发" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2014/08/10/ios开发/" class="article-date">
-  	<time datetime="2014-08-10T04:51:00.000Z" itemprop="datePublished">2014-08-10</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/08/10/ios开发/">ios应用程序开发入门教程</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>有幸，在觅游实习的时候能用到高大上的Mac，有幸，Mac上已经装好了ios开发环境。这么好的资源岂能浪费，于是在工作之余决定学习一下ios开发。<br>我学习新东西，总是希望先从一个实例开始，最好有个教程，一步步地把实例做出来，哪怕中间过程会有很多疑惑，但跟着教程做完之后，收获还是相当多，主要是能够从整体到细节都能又有一个大概认识。所以，我对新知识的学习很依赖一个好的参考书或者一个好的教程。<br>在决定学习ios开发后，我就从网上搜索和ios开发有关的资料，网络虽好，可是可以上手的资料却少之又少。在跋山涉水后，终于发现，<a href="https://developer.apple.com/">apple开发者官网</a>上有一个中文版教程，<a href="https://developer.apple.com/library/ios/referencelibrary/GettingStarted/RoadMapiOSCh/index.html#//apple_ref/doc/uid/TP40012668">马上着手开发ios应用程序</a>，这份中文教程在所有的官方文档里特别显眼。看来，苹果也很重视中国的市场，还为中国开发者准备了中文版入门指南，哈哈。拿到这本教程后，立刻阅读，并且照着教程一步步地实现了一个待办事项列表的应用程序。看着自己的成果，很开心，虽然是个很简单的应用程序，但是作为一个开始很不错。<br>
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ios/">ios</a></li></ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-	<a class="article-category-link" href="/categories/learning/">learning</a>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a  href="/2014/08/10/ios开发/#more">more >></a>
         </p>
       
       <div class="clearfix"></div>

@@ -165,6 +165,72 @@
 
       <div class="body-wrap">
   
+    <article id="post-相信未来" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/06/07/相信未来/" class="article-date">
+  	<time datetime="2015-06-06T16:37:51.000Z" itemprop="datePublished">2015-06-7</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/06/07/相信未来/">相信未来</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>作者：食指<br>出自《食指的诗》</p>
+<p>当蜘蛛网无情地查封了我的炉台，<br>当灰烬的余烟叹息着贫困的悲哀，<br>我依然固执地铺平失望的灰烬，<br>用美丽的雪花写下：相信未来。</p>
+<p>当我的紫葡萄化为深秋的露水，<br>当我的鲜花依偎在别人的情怀，<br>我依然固执地用凝霜的枯藤，<br>在凄凉的大地上写下：相信未来。<br>
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/诗歌/">诗歌</a></li></ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/life/">life</a>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a  href="/2015/06/07/相信未来/#more">more >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-cookie与session" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -415,72 +481,6 @@ git config --global user.email &quot;xxxx@gmail.com&quot;
       
         <p class="article-more-link">
           <a  href="/2015/02/28/setTimeout,setInterval,processnextTick,setImmediate-in-Nodejs/#more">more >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-在多个事件里交叉执行cpu运算密集型的任务：" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2015/02/27/在多个事件里交叉执行cpu运算密集型的任务：/" class="article-date">
-  	<time datetime="2015-02-27T08:10:45.000Z" itemprop="datePublished">2015-02-27</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/02/27/在多个事件里交叉执行cpu运算密集型的任务：/">理解Node.js里的process.nextTick()</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>有很多人对Node.js里process.nextTick()的用法感到不理解，下面我们就来看一下process.nextTick()到底是什么，该如何使用。</p>
-<p>Node.js是单线程的，除了系统IO之外，在它的事件轮询过程中，同一时间只会处理一个事件。你可以把事件轮询想象成一个大的队列，在每个时间点上，系统只会处理一个事件。即使你的电脑有多个CPU核心，你也无法同时并行的处理多个事件。但也就是这种特性使得node.js适合处理I／O型的应用，不适合那种CPU运算型的应用。在每个I／O型的应用中，你只需要给每一个输入输出定义一个回调函数即可，他们会自动加入到事件轮询的处理队列里。当I／O操作完成后，这个回调函数会被触发。然后系统会继续处理其他的请求。</p>
-<p>在这种处理模式下，process.nextTick()的意思就是定义出一个动作，并且让这个动作在下一个事件轮询的时间点上执行。我们来看一个例子。例子中有一个foo()，你想在下一个时间点上调用他，可以这么做：<br>
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/node-js/">node.js</a></li></ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-	<a class="article-category-link" href="/categories/learning/">learning</a>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a  href="/2015/02/27/在多个事件里交叉执行cpu运算密集型的任务：/#more">more >></a>
         </p>
       
       <div class="clearfix"></div>
