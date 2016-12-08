@@ -26,7 +26,7 @@ Promise对象
 Promise对象
 
 无论采用哪种方法，代码都不显得那么优雅。ES6将 JavaScript 异步编程带入了一个全新的阶段。回想起第一次遇见 Generator 时的兴奋之情仍然历历在目。一直以为自己理解了Generator 函数，直到今天有朋友问起一">
-<meta property="og:updated_time" content="2016-12-08T05:44:06.000Z">
+<meta property="og:updated_time" content="2016-12-08T06:11:59.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="深入理解ES6异步编程">
 <meta name="twitter:description" content="JavaScript 的单线程，如果没有异步编程的话将会苦不堪言。ES6 之前，异步编程的方法，大概有下面4种：
@@ -249,7 +249,7 @@ Promise对象
 <li>Promise对象</li>
 </ul>
 <p>无论采用哪种方法，代码都不显得那么优雅。ES6将 JavaScript 异步编程带入了一个全新的阶段。回想起第一次遇见 Generator 时的兴奋之情仍然历历在目。一直以为自己理解了Generator 函数，直到今天有朋友问起一些问题才发现自己根本就没有理解清楚，为了让自己更加清楚明白，参考了阮一峰的深入掌握 ECMAScript 6 异步编程系列的文章后，就有了下文。</p>
-<p>主要从4个方面讲述 ES6 的异步编程，分别是Generator、Thunk、Co以及Async (严格说是属于 ES7 的范畴了)。</p>
+<p>主要从4个方面讲述 ES6 的异步编程，分别是Generator、Thunk、Co以及Async (严格说是属于 ES7 的范畴了)。<br><a id="more"></a></p>
 <h3 id="Generator"><a href="#Generator" class="headerlink" title="Generator"></a>Generator</h3><p>如何使用 Generator 函数，执行一个真实的异步任务。</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> fetch = <span class="built_in">require</span>(<span class="string">'node-fetch'</span>);</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">gen</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="keyword">var</span> url = <span class="string">'https://api.github.com/users/github'</span>;</span><br><span class="line">  <span class="keyword">var</span> result = <span class="keyword">yield</span> fetch(url);</span><br><span class="line">  <span class="built_in">console</span>.log(result.bio);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>上面代码中，Generator 函数封装了一个异步操作，该操作先读取一个远程接口，然后从 JSON 格式的数据解析信息。就像前面说过的，这段代码非常像同步操作，除了加上了 yield 命令。<br>Generator函数已经写好了，但是怎么执行呢，和普通的函数直接调用不一样，为了执行上述的 Generator 函数，需要进行如下操作。</p>
