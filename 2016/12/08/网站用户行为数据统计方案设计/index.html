@@ -6,17 +6,20 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <title>网站用户行为数据统计方案设计 | 琳峰</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="最近公司针对网站用户浏览行为要做数据统计及分析（至于为什么不用目前市场上比较成熟的谷歌分析、百度统计以及新兴的GrowingIO，CTO说收集的信息太多，不敢用，好吧），毕竟现在的产品要一切以数据说话，当然是为了更好的了解用户以针对不同的用户制定不同的营销策略。打住……本文不是介绍数据分析以及现在比较火热的增长黑客的理论，而是要介绍一下针对网站用户行为数据，如何去做数据收集和统计。">
+  <meta name="description" content="最近公司针对网站用户浏览行为要做数据统计及分析（至于为什么不用目前市场上比较成熟的谷歌分析、百度统计以及新兴的GrowingIO，CTO说收集的信息太多，不敢用，好吧），毕竟现在的产品要一切以数据说话，当然是为了更好的了解用户以针对不同的用户制定不同的营销策略。打住……本文不是介绍数据分析以及现在比较火热的增长黑客的理论，而是要介绍一下针对网站用户行为数据，如何去做数据收集和统计。
+系统设计我在调">
 <meta property="og:type" content="article">
 <meta property="og:title" content="网站用户行为数据统计方案设计">
 <meta property="og:url" content="http://google.com/2016/12/08/网站用户行为数据统计方案设计/index.html">
 <meta property="og:site_name" content="琳峰">
-<meta property="og:description" content="最近公司针对网站用户浏览行为要做数据统计及分析（至于为什么不用目前市场上比较成熟的谷歌分析、百度统计以及新兴的GrowingIO，CTO说收集的信息太多，不敢用，好吧），毕竟现在的产品要一切以数据说话，当然是为了更好的了解用户以针对不同的用户制定不同的营销策略。打住……本文不是介绍数据分析以及现在比较火热的增长黑客的理论，而是要介绍一下针对网站用户行为数据，如何去做数据收集和统计。">
+<meta property="og:description" content="最近公司针对网站用户浏览行为要做数据统计及分析（至于为什么不用目前市场上比较成熟的谷歌分析、百度统计以及新兴的GrowingIO，CTO说收集的信息太多，不敢用，好吧），毕竟现在的产品要一切以数据说话，当然是为了更好的了解用户以针对不同的用户制定不同的营销策略。打住……本文不是介绍数据分析以及现在比较火热的增长黑客的理论，而是要介绍一下针对网站用户行为数据，如何去做数据收集和统计。
+系统设计我在调">
 <meta property="og:image" content="http://google.com/img/analytics.png">
-<meta property="og:updated_time" content="2016-12-08T06:11:46.000Z">
+<meta property="og:updated_time" content="2016-12-08T06:18:26.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="网站用户行为数据统计方案设计">
-<meta name="twitter:description" content="最近公司针对网站用户浏览行为要做数据统计及分析（至于为什么不用目前市场上比较成熟的谷歌分析、百度统计以及新兴的GrowingIO，CTO说收集的信息太多，不敢用，好吧），毕竟现在的产品要一切以数据说话，当然是为了更好的了解用户以针对不同的用户制定不同的营销策略。打住……本文不是介绍数据分析以及现在比较火热的增长黑客的理论，而是要介绍一下针对网站用户行为数据，如何去做数据收集和统计。">
+<meta name="twitter:description" content="最近公司针对网站用户浏览行为要做数据统计及分析（至于为什么不用目前市场上比较成熟的谷歌分析、百度统计以及新兴的GrowingIO，CTO说收集的信息太多，不敢用，好吧），毕竟现在的产品要一切以数据说话，当然是为了更好的了解用户以针对不同的用户制定不同的营销策略。打住……本文不是介绍数据分析以及现在比较火热的增长黑客的理论，而是要介绍一下针对网站用户行为数据，如何去做数据收集和统计。
+系统设计我在调">
   
     <link rel="alternative" href="/atom.xml" title="琳峰" type="application/atom+xml">
   
@@ -85,7 +88,7 @@
 				<div class="tips-box hide">
 					<div class="tips-arrow"></div>
 					<ul class="tips-inner">
-						<li>Menu</li>
+						<li>菜单</li>
 						<li>標籤</li>
 						
 						
@@ -221,12 +224,13 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>最近公司针对网站用户浏览行为要做数据统计及分析（至于为什么不用目前市场上比较成熟的<a href="https://www.google.com/intl/zh-CN_ALL/analytics/index.html" target="_blank" rel="external">谷歌分析</a>、<a href="http://tongji.baidu.com/web/welcome/login" target="_blank" rel="external">百度统计</a>以及新兴的<a href="https://www.growingio.com" target="_blank" rel="external">GrowingIO</a>，CTO说收集的信息太多，不敢用，好吧），毕竟现在的产品要一切以数据说话，当然是为了更好的了解用户以针对不同的用户制定不同的营销策略。打住……本文不是介绍数据分析以及现在比较火热的<em>增长黑客</em>的理论，而是要介绍一下针对网站用户行为数据，如何去做数据收集和统计。<br><a id="more"></a></p>
+        <p>最近公司针对网站用户浏览行为要做数据统计及分析（至于为什么不用目前市场上比较成熟的<a href="https://www.google.com/intl/zh-CN_ALL/analytics/index.html" target="_blank" rel="external">谷歌分析</a>、<a href="http://tongji.baidu.com/web/welcome/login" target="_blank" rel="external">百度统计</a>以及新兴的<a href="https://www.growingio.com" target="_blank" rel="external">GrowingIO</a>，CTO说收集的信息太多，不敢用，好吧），毕竟现在的产品要一切以数据说话，当然是为了更好的了解用户以针对不同的用户制定不同的营销策略。打住……本文不是介绍数据分析以及现在比较火热的<em>增长黑客</em>的理论，而是要介绍一下针对网站用户行为数据，如何去做数据收集和统计。</p>
 <h3 id="u7CFB_u7EDF_u8BBE_u8BA1"><a href="#u7CFB_u7EDF_u8BBE_u8BA1" class="headerlink" title="系统设计"></a>系统设计</h3><p>我在调研了谷歌统计、百度统计以及growingio的统计代码之后，得出网站用户行为数据统计的普遍方案如下：</p>
 <ul>
 <li>html动态创建script标签，src指向一个analytics.js</li>
 <li>analytics.js收集客户端数据，主要包括页面跟踪数据和事件跟踪数据，并将数据发给后端数据收集服务</li>
-<li>后端数据收集服务接收数据写入数据库，并为前端页面设置用户跟踪cookie</li>
+<li>后端数据收集服务接收数据写入数据库，并为前端页面设置用户跟踪cookie    <a id="more"></a>
+</li>
 </ul>
 <p>整体的系统设计图如下：</p>
 <p><img src="/img/analytics.png" alt=""></p>
@@ -269,7 +273,7 @@
 <div class="share_jia">
 	<!-- JiaThis Button BEGIN -->
 	<div class="jiathis_style">
-		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<span class="jiathis_txt">分享到: &nbsp; </span>
 		<a class="jiathis_button_facebook"></a> 
     <a class="jiathis_button_twitter"></a>
     <a class="jiathis_button_plus"></a> 
