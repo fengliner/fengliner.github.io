@@ -83,7 +83,7 @@
 				<div class="tips-box hide">
 					<div class="tips-arrow"></div>
 					<ul class="tips-inner">
-						<li>菜单</li>
+						<li>Menu</li>
 						<li>標籤</li>
 						
 						
@@ -118,7 +118,7 @@
 				
 				<section class="switch-part switch-part2">
 					<div class="widget tagcloud" id="js-tagcloud">
-						<a href="/tags/C/" style="font-size: 18px;">C++</a> <a href="/tags/Mongodb/" style="font-size: 14px;">Mongodb</a> <a href="/tags/Ubuntu/" style="font-size: 12px;">Ubuntu</a> <a href="/tags/database/" style="font-size: 10px;">database</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/http/" style="font-size: 10px;">http</a> <a href="/tags/ios/" style="font-size: 10px;">ios</a> <a href="/tags/javascript/" style="font-size: 12px;">javascript</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/node-js/" style="font-size: 20px;">node.js</a> <a href="/tags/postgresql/" style="font-size: 10px;">postgresql</a> <a href="/tags/web/" style="font-size: 14px;">web</a> <a href="/tags/数据库/" style="font-size: 10px;">数据库</a> <a href="/tags/数据结构/" style="font-size: 16px;">数据结构</a> <a href="/tags/文件操作/" style="font-size: 10px;">文件操作</a> <a href="/tags/篮球/" style="font-size: 16px;">篮球</a> <a href="/tags/虚函数/" style="font-size: 10px;">虚函数</a> <a href="/tags/设计模式/" style="font-size: 10px;">设计模式</a> <a href="/tags/诗歌/" style="font-size: 12px;">诗歌</a> <a href="/tags/随笔/" style="font-size: 14px;">随笔</a>
+						<a href="/tags/C/" style="font-size: 18px;">C++</a> <a href="/tags/Mongodb/" style="font-size: 14px;">Mongodb</a> <a href="/tags/Ubuntu/" style="font-size: 12px;">Ubuntu</a> <a href="/tags/database/" style="font-size: 10px;">database</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/http/" style="font-size: 10px;">http</a> <a href="/tags/ios/" style="font-size: 10px;">ios</a> <a href="/tags/javascript/" style="font-size: 12px;">javascript</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/node-js/" style="font-size: 20px;">node.js</a> <a href="/tags/postgresql/" style="font-size: 10px;">postgresql</a> <a href="/tags/system-design/" style="font-size: 10px;">system design</a> <a href="/tags/web/" style="font-size: 14px;">web</a> <a href="/tags/数据库/" style="font-size: 10px;">数据库</a> <a href="/tags/数据结构/" style="font-size: 16px;">数据结构</a> <a href="/tags/文件操作/" style="font-size: 10px;">文件操作</a> <a href="/tags/篮球/" style="font-size: 14px;">篮球</a> <a href="/tags/虚函数/" style="font-size: 10px;">虚函数</a> <a href="/tags/设计模式/" style="font-size: 10px;">设计模式</a> <a href="/tags/诗歌/" style="font-size: 12px;">诗歌</a> <a href="/tags/随笔/" style="font-size: 14px;">随笔</a>
 					</div>
 				</section>
 				
@@ -179,6 +179,75 @@
 </nav>
 
       <div class="body-wrap">
+  
+    <article id="post-折半查找" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2014/04/02/折半查找/" class="article-date">
+  	<time datetime="2014-04-02T09:20:15.000Z" itemprop="datePublished">2014-04-2</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/04/02/折半查找/">折半查找</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>#折半查找<br>折半查找即二分查找 ，适用于有序顺序表      </p>
+<p>二分查找又称折半查找，优点是比较次数少，查找速度快，平均性能好；其缺点是要求待查表为有序表，且插入删除困难。因此，折半查找方法适用于不经常变动而查找频繁的有序列表。首先，假设表中元素是按升序排列，将表中间位置记录的关键字与查找关键字比较，如果两者相等，则查找成功，否则利用中间位置记录将表分成前后两个子表，如果中间位置记录的关键字大于查找关键字，则进一步查找前一子表，否则进一步查找后一子表。重复以上过程，直到找到满足条件的记录，查找成功，或直到子表不存在为止，此时查找不成功。</p>
+<p>算法要求：</p>
+<ol>
+<li>必须采用顺序存储结构      </li>
+<li>必须按关键字大小有序排列
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/C/">C++</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数据结构/">数据结构</a></li></ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/learning/">learning</a>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a  href="/2014/04/02/折半查找/#more">more >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
   
     <article id="post-文件操作" class="article article-type-post" itemscope itemprop="blogPost">
   
@@ -441,73 +510,6 @@
 
 
   
-    <article id="post-虚函数" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2014/03/09/虚函数/" class="article-date">
-  	<time datetime="2014-03-09T12:37:26.000Z" itemprop="datePublished">2014-03-9</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/03/09/虚函数/">C++虚函数</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>一：虚函数</p>
-<p>C++继承的难点，不在继承，而是在虚函数。之所以会有“虚函数”这个概念，是因为先有了“继承”这个概念，然后才出现了灵活多变的“虚函数”。可以说，没有继承，就没有虚函数。        </p>
-<p>简单地说，虚函数是C++用于实现多态的机制。</p>
-<p>函数前面加一个virtual，就可以通过父类指针随意地调用各个子类的同名函数，用一个指针实现了不同的运行效果，达到多态的妙处，这就是常说的虚函数的主要用途。<br>
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/C/">C++</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/虚函数/">虚函数</a></li></ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-	<a class="article-category-link" href="/categories/learning/">learning</a>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a  href="/2014/03/09/虚函数/#more">more >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/7/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/9/">Next &raquo;</a>
@@ -554,22 +556,6 @@
 </script>
 <script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
 <script src="/js/main.js" type="text/javascript"></script>
-
-
-<script type="text/javascript">
-var _ma = _ma || [];
-_ma.push(['_setAccount', 'UA-351107434-1']);
-(function() {
-  var ma = document.createElement('script');
-  ma.type = 'text/javascript';
-  ma.async = true;
-  ma.src = ('https:' == document.location.protocol ? 'https://user' : 'http://user') + '.smartstudy.com:3000/ma.js';
-  var s = document.getElementsByTagName('script')[0]; 
-  s.parentNode.insertBefore(ma, s);
-  console.log('=======')
-})();
-</script>
-
 
 
 <script type="text/x-mathjax-config">

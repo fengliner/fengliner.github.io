@@ -83,7 +83,7 @@
 				<div class="tips-box hide">
 					<div class="tips-arrow"></div>
 					<ul class="tips-inner">
-						<li>菜单</li>
+						<li>Menu</li>
 						<li>標籤</li>
 						
 						
@@ -118,7 +118,7 @@
 				
 				<section class="switch-part switch-part2">
 					<div class="widget tagcloud" id="js-tagcloud">
-						<a href="/tags/C/" style="font-size: 18px;">C++</a> <a href="/tags/Mongodb/" style="font-size: 14px;">Mongodb</a> <a href="/tags/Ubuntu/" style="font-size: 12px;">Ubuntu</a> <a href="/tags/database/" style="font-size: 10px;">database</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/http/" style="font-size: 10px;">http</a> <a href="/tags/ios/" style="font-size: 10px;">ios</a> <a href="/tags/javascript/" style="font-size: 12px;">javascript</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/node-js/" style="font-size: 20px;">node.js</a> <a href="/tags/postgresql/" style="font-size: 10px;">postgresql</a> <a href="/tags/web/" style="font-size: 14px;">web</a> <a href="/tags/数据库/" style="font-size: 10px;">数据库</a> <a href="/tags/数据结构/" style="font-size: 16px;">数据结构</a> <a href="/tags/文件操作/" style="font-size: 10px;">文件操作</a> <a href="/tags/篮球/" style="font-size: 16px;">篮球</a> <a href="/tags/虚函数/" style="font-size: 10px;">虚函数</a> <a href="/tags/设计模式/" style="font-size: 10px;">设计模式</a> <a href="/tags/诗歌/" style="font-size: 12px;">诗歌</a> <a href="/tags/随笔/" style="font-size: 14px;">随笔</a>
+						<a href="/tags/C/" style="font-size: 18px;">C++</a> <a href="/tags/Mongodb/" style="font-size: 14px;">Mongodb</a> <a href="/tags/Ubuntu/" style="font-size: 12px;">Ubuntu</a> <a href="/tags/database/" style="font-size: 10px;">database</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/http/" style="font-size: 10px;">http</a> <a href="/tags/ios/" style="font-size: 10px;">ios</a> <a href="/tags/javascript/" style="font-size: 12px;">javascript</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/node-js/" style="font-size: 20px;">node.js</a> <a href="/tags/postgresql/" style="font-size: 10px;">postgresql</a> <a href="/tags/system-design/" style="font-size: 10px;">system design</a> <a href="/tags/web/" style="font-size: 14px;">web</a> <a href="/tags/数据库/" style="font-size: 10px;">数据库</a> <a href="/tags/数据结构/" style="font-size: 16px;">数据结构</a> <a href="/tags/文件操作/" style="font-size: 10px;">文件操作</a> <a href="/tags/篮球/" style="font-size: 14px;">篮球</a> <a href="/tags/虚函数/" style="font-size: 10px;">虚函数</a> <a href="/tags/设计模式/" style="font-size: 10px;">设计模式</a> <a href="/tags/诗歌/" style="font-size: 12px;">诗歌</a> <a href="/tags/随笔/" style="font-size: 14px;">随笔</a>
 					</div>
 				</section>
 				
@@ -180,10 +180,94 @@
 
       <div class="body-wrap">
   
-    <article id="post-PostgreSql学习笔记之索引" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-网站用户行为数据统计方案设计" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016/12/06/PostgreSql学习笔记之索引/" class="article-date">
+      <a href="/2016/12/08/网站用户行为数据统计方案设计/" class="article-date">
+  	<time datetime="2016-12-08T03:40:52.000Z" itemprop="datePublished">2016-12-8</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/08/网站用户行为数据统计方案设计/">网站用户行为数据统计方案设计</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近公司针对网站用户浏览行为要做数据统计及分析（至于为什么不用目前市场上比较成熟的<a href="https://www.google.com/intl/zh-CN_ALL/analytics/index.html" target="_blank" rel="external">谷歌分析</a>、<a href="http://tongji.baidu.com/web/welcome/login" target="_blank" rel="external">百度统计</a>以及新兴的<a href="https://www.growingio.com" target="_blank" rel="external">GrowingIO</a>，CTO说收集的信息太多，不敢用，好吧），毕竟现在的产品要一切以数据说话，当然是为了更好的了解用户以针对不同的用户制定不同的营销策略。打住……本文不是介绍数据分析以及现在比较火热的<em>增长黑客</em>的理论，而是要介绍一下针对网站用户行为数据，如何去做数据收集和统计。</p>
+<h3 id="u7CFB_u7EDF_u8BBE_u8BA1"><a href="#u7CFB_u7EDF_u8BBE_u8BA1" class="headerlink" title="系统设计"></a>系统设计</h3><p>我在调研了谷歌统计、百度统计以及growingio的统计代码之后，得出网站用户行为数据统计的普遍方案如下：</p>
+<ul>
+<li>html动态创建script标签，src指向一个analytics.js</li>
+<li>analytics.js收集客户端数据，主要包括页面跟踪数据和事件跟踪数据，并将数据发给后端数据收集服务</li>
+<li>后端数据收集服务接收数据写入数据库，并为前端页面设置用户跟踪cookie</li>
+</ul>
+<p>整体的系统设计图如下：</p>
+<p><img src="/img/analytics.png" alt=""></p>
+<h3 id="DEMO"><a href="#DEMO" class="headerlink" title="DEMO"></a>DEMO</h3><p>下面看一个简单的demo代码：</p>
+<p>第一步：<strong>html动态创建script标签，src指向一个analytics.js</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;script type=<span class="string">"text/javascript"</span>&gt;</span><br><span class="line"><span class="keyword">var</span> _ma = _ma || [];</span><br><span class="line"><span class="built_in">window</span>._ma = _ma;</span><br><span class="line">_ma.push([<span class="string">'_setAccount'</span>, <span class="string">'UA-351107434-1'</span>]);</span><br><span class="line">(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> ma = <span class="built_in">document</span>.createElement(<span class="string">'script'</span>);</span><br><span class="line">  ma.type = <span class="string">'text/javascript'</span>;</span><br><span class="line">  ma.async = <span class="literal">true</span>;</span><br><span class="line">  ma.src = (<span class="string">'https:'</span> == <span class="built_in">document</span>.location.protocol ? <span class="string">'https://www'</span> : <span class="string">'http://www'</span>) + <span class="string">'.smartstudy.com/zhike-analytics.js'</span>;</span><br><span class="line">  <span class="keyword">var</span> s = <span class="built_in">document</span>.getElementsByTagName(<span class="string">'script'</span>)[<span class="number">0</span>]; </span><br><span class="line">  s.parentNode.insertBefore(ma, s);</span><br><span class="line">&#125;)();</span><br><span class="line"><span class="xml"><span class="tag">&lt;/<span class="title">script</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
+<p>第二步：<strong>analytics.js收集客户端数据，主要包括页面跟踪数据和事件跟踪数据，并将数据发给后端数据收集服务</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> params = &#123;&#125;;</span><br><span class="line">  <span class="keyword">if</span> (<span class="built_in">document</span>) &#123;</span><br><span class="line">    params.url = <span class="built_in">document</span>.URL || <span class="string">''</span>;</span><br><span class="line">    params.title = <span class="built_in">document</span>.title || <span class="string">''</span>;</span><br><span class="line">    params.referer = <span class="built_in">document</span>.referer || <span class="string">''</span>;</span><br><span class="line">    params.domain = <span class="built_in">document</span>.domain || <span class="string">''</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (<span class="built_in">window</span> &amp;&amp; <span class="built_in">window</span>.screen) &#123;</span><br><span class="line">    params.sh = <span class="built_in">window</span>.screen.height || <span class="number">0</span>;</span><br><span class="line">    params.sw = <span class="built_in">window</span>.screen.width || <span class="number">0</span>;</span><br><span class="line">    params.cd = <span class="built_in">window</span>.screen.colorDepth || <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (navigator) &#123;</span><br><span class="line">    params.lang = navigator.language || <span class="string">''</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (_ma) &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i <span class="keyword">in</span> _ma) &#123;</span><br><span class="line">      <span class="keyword">switch</span> (_ma[i][<span class="number">0</span>]) &#123;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">'_setAccount'</span>:</span><br><span class="line">          params.account = _ma[i][<span class="number">1</span>];</span><br><span class="line">          <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">'_trackEvent'</span>:</span><br><span class="line">          params.eventCategory = _ma[i][<span class="number">1</span>];</span><br><span class="line">          params.eventAction = _ma[i][<span class="number">2</span>];</span><br><span class="line">          params.eventLabel = _ma[i][<span class="number">3</span>] || <span class="string">''</span>;</span><br><span class="line">          params.eventValue = _ma[i][<span class="number">4</span>] || <span class="string">''</span>;</span><br><span class="line">          <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">default</span>:</span><br><span class="line">          <span class="keyword">break</span>;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">var</span> args = <span class="string">''</span>;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">var</span> i <span class="keyword">in</span> params) &#123;</span><br><span class="line">    <span class="keyword">if</span> (args != <span class="string">''</span>) &#123;</span><br><span class="line">      args += <span class="string">'&amp;'</span></span><br><span class="line">    &#125;</span><br><span class="line">    args += i + <span class="string">'='</span> + <span class="built_in">encodeURIComponent</span>(params[i]);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">var</span> image = <span class="keyword">new</span> Image(<span class="number">1</span>, <span class="number">1</span>);</span><br><span class="line">  image.src = <span class="string">'http://www.smartstudy.com/collect?'</span> + args;</span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure>
+<p>第三步：<strong>后端数据收集服务接收请求并把数据写入数据库，并为前端页面设置用户跟踪cookie</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// node.js</span></span><br><span class="line">app.get(<span class="string">'/collect'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">req, res</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 后端接收到数据后可以写数据库，可以写到日志服务，这里只是简单的打印一下</span></span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'req.query=='</span>, req.query);</span><br><span class="line">  res.send(<span class="string">'ok'</span>);</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>以上就实现了一个很简单的数据收集系统，只实现了页面数据的收集，当然如果要真正用于生产环境还有很多需要考虑的，比如事件跟踪数据，数据格式的确定，页面跳转导致数据丢失的问题，数据清理等等。<br>至于收集到数据之后的数据分析问题由于涉及到大数据、用户画像之类的问题了，笔者不熟悉，所以就不再说了。</p>
+<h3 id="u53C2_u8003_uFF1A"><a href="#u53C2_u8003_uFF1A" class="headerlink" title="参考："></a>参考：</h3><ul>
+<li><a href="https://packagecontrol.io/channel_v3.json" target="_blank" rel="external">网站统计中的数据收集原理及实现</a>      </li>
+<li><a href="https://segmentfault.com/a/1190000002581832" target="_blank" rel="external">百度统计事件跟踪的使用方法</a>     </li>
+<li><a href="https://developers.google.com/analytics/devguides/collection/analyticsjs/" target="_blank" rel="external">Google Analytics</a></li>
+<li><a href="https://blog.growingio.com/posts/growingio-customer-behavior-data-abalyse" target="_blank" rel="external">GrowingIO用户行为数据的采集和分析实践</a></li>
+<li><a href="https://gold.xitu.io/entry/56cbc02a128fe10058083439" target="_blank" rel="external">页面跳转时，统计数据丢失问题探讨</a></li>
+</ul>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/system-design/">system design</a></li></ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/learning/">learning</a>
+	</div>
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-数据库索引及慢查询优化" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/12/06/数据库索引及慢查询优化/" class="article-date">
   	<time datetime="2016-12-06T10:00:24.000Z" itemprop="datePublished">2016-12-6</time>
 </a>
     </div>
@@ -197,7 +281,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/06/PostgreSql学习笔记之索引/">数据库索引及慢查询优化</a>
+      <a class="article-title" href="/2016/12/06/数据库索引及慢查询优化/">数据库索引及慢查询优化</a>
     </h1>
   
 
@@ -206,7 +290,43 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>索引是对数据库中一列或几列的数据按照特定的数据结构进行排序保存的一种方式。使用索引可以加快数据库查询或排序时的速度。如果不使用索引那么查询数据时就会进行全表扫描也就是每条数据读取一遍，而使用索引可以快速找到要查询的数据，不用扫描所有数据。<br>
+        <p>索引是对数据库中一列或几列的数据按照特定的数据结构进行排序保存的一种方式。使用索引可以加快数据库查询或排序时的速度。如果不使用索引那么查询数据时就会进行全表扫描也就是每条数据读取一遍，而使用索引可以快速找到要查询的数据，不用扫描所有数据。    </p>
+<h3 id="u7D22_u5F15_u7684_u4F18_u70B9"><a href="#u7D22_u5F15_u7684_u4F18_u70B9" class="headerlink" title="索引的优点"></a>索引的优点</h3><ul>
+<li>可以大大提高数据查询的速度</li>
+<li>在实现数据的参考完整性方面，可以加快表和表之间的连接</li>
+<li>在分组和排序时，可以减少分组和排序的时间</li>
+</ul>
+<p><strong>当然，索引也有缺点，所以我们不能在表中随意的创建索引</strong></p>
+<h3 id="u7D22_u5F15_u7684_u7F3A_u70B9"><a href="#u7D22_u5F15_u7684_u7F3A_u70B9" class="headerlink" title="索引的缺点"></a>索引的缺点</h3><ul>
+<li>创建和维护索引需要耗费时间，数据量越大耗费时间也越长</li>
+<li>索引需要占用额外的磁盘空间，如果索引量很大又有大量索引，那么索引文件大小增加很快（深有体会）</li>
+<li>对表中数据改动的时候，索引需要动态维护，降低了数据操作的速度</li>
+</ul>
+<h3 id="u7D22_u5F15_u7684_u8BBE_u8BA1_u539F_u5219"><a href="#u7D22_u5F15_u7684_u8BBE_u8BA1_u539F_u5219" class="headerlink" title="索引的设计原则"></a>索引的设计原则</h3><ol>
+<li><strong>最左前缀匹配原则</strong>，非常重要的原则，mysql会一直向右匹配直到遇到范围查询(&gt;、&lt;、between、like)就停止匹配。比如a = 1 and b = 2 and c &gt; 3 and d = 4 如果建立(a,b,c,d)顺序的索引，d是用不到索引的，如果建立(a,b,d,c)的索引则都可以用到，a,b,d的顺序可以任意调整，=和in可以乱序。</li>
+<li>索引不是越多越好，索引太多会影响insert,delete,update的性能</li>
+<li>数据量很小的表最好不要使用索引，由于数量少，扫描表的时间可能比查询索引的时间要短，索引没有效果</li>
+<li>尽量选择区分度高的列作为索引，例如，表示性别的字段一般只有‘男’和‘女’两个不同值，如果建立索引会严重降低更新速度</li>
+<li>索引列不能参与计算，保持列“干净”，</li>
+<li>尽量的扩展索引，不要新建索引。比如表中已经有a的索引，现在要加(a,b)的索引，那么只需要修改原来的索引即可</li>
+</ol>
+<blockquote>
+<p>select * from account where status = 1 and type = 2 and creator_id = 12;<br>select * from account where status = 0;<br>select * from account where status = 1 and creator_id = 10;</p>
+</blockquote>
+<p>如果业务场景中会经常对以上的sql进行查询，根据最左前缀匹配原则应该建立（status, creator_id, type）的索引，因为可以覆盖所有情况</p>
+<h3 id="u6162_u67E5_u8BE2"><a href="#u6162_u67E5_u8BE2" class="headerlink" title="慢查询"></a>慢查询</h3><p><strong>慢查询优化基本步骤</strong></p>
+<ol>
+<li>先运行看看是否真的很慢，注意设置SQL_NO_CACHE</li>
+<li>where条件单表查，锁定最小返回记录表。这句话的意思是把查询语句的where都应用到表中返回的记录数最小的表开始查起，单表每个字段分别查询，看哪个字段的区分度最高</li>
+<li>explain查看执行计划，是否与1预期一致（从锁定记录较少的表开始查询）</li>
+<li>order by limit 形式的sql语句让排序的表优先查</li>
+<li>了解业务方使用场景</li>
+<li>加索引时参照建索引的几大原则</li>
+<li>观察结果，不符合预期继续从1分析</li>
+</ol>
+<h3 id="u6700_u540E"><a href="#u6700_u540E" class="headerlink" title="最后"></a>最后</h3><p>没有平白无故的查询优化，深入到业务场景中，充分了解业务需求往往更能解决问题。其实不光是查询优化，任何的架构、设计、技术离开业务场景的大谈特谈都是耍流氓！</p>
+<p>参考：<a href="http://tech.meituan.com/mysql-index.html" target="_blank" rel="external">MySQL索引原理及慢查询优化</a></p>
+
       
     </div>
     
@@ -223,10 +343,6 @@
 	</div>
 
 
-      
-        <p class="article-more-link">
-          <a  href="/2016/12/06/PostgreSql学习笔记之索引/#more">more >></a>
-        </p>
       
       <div class="clearfix"></div>
     </div>
@@ -278,7 +394,59 @@
 <li>Promise对象</li>
 </ul>
 <p>无论采用哪种方法，代码都不显得那么优雅。ES6将 JavaScript 异步编程带入了一个全新的阶段。回想起第一次遇见 Generator 时的兴奋之情仍然历历在目。一直以为自己理解了Generator 函数，直到今天有朋友问起一些问题才发现自己根本就没有理解清楚，为了让自己更加清楚明白，参考了阮一峰的深入掌握 ECMAScript 6 异步编程系列的文章后，就有了下文。</p>
-<p>主要从4个方面讲述 ES6 的异步编程，分别是Generator、Thunk、Co以及Async (严格说是属于 ES7 的范畴了)。<br>
+<p>主要从4个方面讲述 ES6 的异步编程，分别是Generator、Thunk、Co以及Async (严格说是属于 ES7 的范畴了)。</p>
+<h3 id="Generator"><a href="#Generator" class="headerlink" title="Generator"></a>Generator</h3><p>如何使用 Generator 函数，执行一个真实的异步任务。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> fetch = <span class="built_in">require</span>(<span class="string">'node-fetch'</span>);</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">gen</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="keyword">var</span> url = <span class="string">'https://api.github.com/users/github'</span>;</span><br><span class="line">  <span class="keyword">var</span> result = <span class="keyword">yield</span> fetch(url);</span><br><span class="line">  <span class="built_in">console</span>.log(result.bio);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面代码中，Generator 函数封装了一个异步操作，该操作先读取一个远程接口，然后从 JSON 格式的数据解析信息。就像前面说过的，这段代码非常像同步操作，除了加上了 yield 命令。<br>Generator函数已经写好了，但是怎么执行呢，和普通的函数直接调用不一样，为了执行上述的 Generator 函数，需要进行如下操作。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> g = gen();</span><br><span class="line"><span class="keyword">var</span> result = g.next();</span><br><span class="line"></span><br><span class="line">result.value.then(<span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">return</span> data.json();</span><br><span class="line">&#125;).then(<span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;</span><br><span class="line">  g.next(data);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>上面代码中，首先执行 Generator 函数，获取遍历器对象，然后使用 next 方法（第二行），执行异步任务的第一阶段。由于 Fetch 模块返回的是一个 Promise 对象，因此要用 then 方法调用下一个next 方法。<br>以上我们可以看到 <strong>Generator 函数写起来很简单，像同步编程一样，但是执行起来却很麻烦</strong>，所以就有了下文。</p>
+<h3 id="Thunk"><a href="#Thunk" class="headerlink" title="Thunk"></a>Thunk</h3><p>Thunk 函数的作用是可以用于 Generator 函数的自动流程管理。<br>以读取文件为例。下面的 Generator 函数封装了两个异步操作。     </p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>);</span><br><span class="line"><span class="keyword">var</span> thunkify = <span class="built_in">require</span>(<span class="string">'thunkify'</span>);</span><br><span class="line"><span class="keyword">var</span> readFile = thunkify(fs.readFile);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> gen = <span class="function"><span class="keyword">function</span>* (<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="keyword">var</span> r1 = <span class="keyword">yield</span> readFile(<span class="string">'/etc/fstab'</span>);</span><br><span class="line">  <span class="built_in">console</span>.log(r1.toString());</span><br><span class="line">  <span class="keyword">var</span> r2 = <span class="keyword">yield</span> readFile(<span class="string">'/etc/shells'</span>);</span><br><span class="line">  <span class="built_in">console</span>.log(r2.toString());</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>我们先看如何手动执行上面这个 Generator 函数。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> g = gen();</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> r1 = g.next();</span><br><span class="line">r1.value(<span class="function"><span class="keyword">function</span>(<span class="params">err, data</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (err) <span class="keyword">throw</span> err;</span><br><span class="line">  <span class="keyword">var</span> r2 = g.next(data);</span><br><span class="line">  r2.value(<span class="function"><span class="keyword">function</span>(<span class="params">err, data</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (err) <span class="keyword">throw</span> err;</span><br><span class="line">    g.next(data);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>上面代码中，变量 g 是 Generator 函数的内部指针，表示目前执行到哪一步。next 方法负责将指针移动到下一步，并返回该步的信息（value 属性和 done 属性）。<br>仔细查看上面的代码，可以发现 Generator 函数的执行过程，其实是将同一个回调函数，反复传入 next 方法的 value 属性。这使得我们可以用递归来自动完成这个过程。</p>
+<p><strong>Thunk 函数真正的威力，在于可以自动执行 Generator 函数。下面就是一个基于 Thunk 函数的 Generator 执行器。</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">run</span>(<span class="params">fn</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> gen = fn();</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">next</span>(<span class="params">err, data</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> result = gen.next(data);</span><br><span class="line">    <span class="keyword">if</span> (result.done) <span class="keyword">return</span>;</span><br><span class="line">    result.value(next);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  next();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">run(gen);</span><br></pre></td></tr></table></figure>
+<p>上面代码的 run 函数，就是一个 Generator 函数的自动执行器。内部的 next 函数就是 Thunk 的回调函数。 next 函数先将指针移到 Generator 函数的下一步（gen.next 方法），然后判断 Generator 函数是否结束（result.done 属性），如果没结束，就将 next 函数再传入 Thunk 函数（result.value 属性），否则就直接退出。<br>有了这个执行器，执行 Generator 函数方便多了。不管有多少个异步操作，直接传入 run 函数即可。当然，前提是每一个异步操作，都要是 Thunk 函数，也就是说，跟在 yield 命令后面的必须是 Thunk 函数。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> gen = <span class="function"><span class="keyword">function</span>* (<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="keyword">var</span> f1 = <span class="keyword">yield</span> readFile(<span class="string">'fileA'</span>);</span><br><span class="line">  <span class="keyword">var</span> f2 = <span class="keyword">yield</span> readFile(<span class="string">'fileB'</span>);</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">  <span class="keyword">var</span> fn = <span class="keyword">yield</span> readFile(<span class="string">'fileN'</span>);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">run(gen);</span><br></pre></td></tr></table></figure>
+<p>上面代码中，函数 gen 封装了 n 个异步的读取文件操作，只要执行 run 函数，这些操作就会自动完成。这样一来，异步操作不仅可以写得像同步操作，而且一行代码就可以执行。    </p>
+<p>Thunk 函数并不是 Generator 函数自动执行的唯一方案。因为自动执行的关键是，必须有一种机制，自动控制 Generator 函数的流程，接收和交还程序的执行权。回调函数可以做到这一点，Promise 对象也可以做到这一点。而大名鼎鼎的 <a href="https://github.com/tj/co" target="_blank" rel="external">Co</a> 便是基于 Promise 的自动执行器。</p>
+<h3 id="Co"><a href="#Co" class="headerlink" title="Co"></a>Co</h3><p>Co 就是用于 Generator 函数的自动执行。</p>
+<p>Co可以省去自己写 run 函数的麻烦，直接引用即可，如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> co = <span class="built_in">require</span>(<span class="string">'co'</span>);</span><br><span class="line">co(gen).then(<span class="function"><span class="keyword">function</span> (<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'Generator 函数执行完成'</span>);</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>为什么 co 可以自动执行 Generator 函数？<br>前面说过，Generator 函数就是一个异步操作的容器。它的自动执行需要一种机制，当异步操作有了结果，能够自动交回执行权。<br>两种方法可以做到这一点。      </p>
+<ul>
+<li>回调函数。将异步操作包装成 Thunk 函数，在回调函数里面交回执行权。</li>
+<li>Promise 对象。将异步操作包装成 Promise 对象，用 then 方法交回执行权。</li>
+</ul>
+<p><strong>co 函数库其实就是将两种自动执行器（Thunk 函数和 Promise 对象），包装成一个库</strong>。使用 co 的前提条件是，Generator 函数的 yield 命令后面，只能是 Thunk 函数或 Promise 对象。</p>
+<p>上面的 run 函数是基于回调函数的自动执行器，下面的 run 函数是基于 Promise 的。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">run</span>(<span class="params">gen</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">var</span> g = gen();</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">next</span>(<span class="params">data</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> result = g.next(data);</span><br><span class="line">    <span class="keyword">if</span> (result.done) <span class="keyword">return</span> result.value;</span><br><span class="line">    result.value.then(<span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;</span><br><span class="line">      next(data);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  next();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">run(gen);</span><br></pre></td></tr></table></figure>
+<p>Co 的<a href="https://github.com/tj/co" target="_blank" rel="external">源码</a>就是上面这个自动执行器的扩展，有兴趣的可以去看一下。</p>
+<h3 id="Async"><a href="#Async" class="headerlink" title="Async"></a>Async</h3><p>就在人们沉浸在 Generate 和 Co 带来的兴奋之中时，ES7 却带来了另一个异步编程的解决方案，即 Async，有人将它称为是异步编程的终极解决方案。<br>一句话解释 Async，<strong>Async 函数就是 Generator 函数的语法糖。</strong></p>
+<p>前文有一个 Generator 函数，依次读取两个文件。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> readFile = <span class="function"><span class="keyword">function</span> (<span class="params">fileName</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span> (<span class="params">resolve, reject</span>)</span>&#123;</span><br><span class="line">    fs.readFile(fileName, <span class="function"><span class="keyword">function</span>(<span class="params">error, data</span>)</span>&#123;</span><br><span class="line">      <span class="keyword">if</span> (error) reject(error);</span><br><span class="line">      resolve(data);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> gen = <span class="function"><span class="keyword">function</span>* (<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="keyword">var</span> f1 = <span class="keyword">yield</span> readFile(<span class="string">'/etc/fstab'</span>);</span><br><span class="line">  <span class="keyword">var</span> f2 = <span class="keyword">yield</span> readFile(<span class="string">'/etc/shells'</span>);</span><br><span class="line">  <span class="built_in">console</span>.log(f1.toString());</span><br><span class="line">  <span class="built_in">console</span>.log(f2.toString());</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>写成 async 函数，就是下面这样。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> asyncReadFile = <span class="keyword">async</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="keyword">var</span> f1 = <span class="keyword">await</span> readFile(<span class="string">'/etc/fstab'</span>);</span><br><span class="line">  <span class="keyword">var</span> f2 = <span class="keyword">await</span> readFile(<span class="string">'/etc/shells'</span>);</span><br><span class="line">  <span class="built_in">console</span>.log(f1.toString());</span><br><span class="line">  <span class="built_in">console</span>.log(f2.toString());</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>一比较就会发现，<strong>async 函数就是将 Generator 函数的星号（*）替换成 async，将 yield 替换成 await，而async 函数的实现，就是将 Generator 函数和自动执行器，包装在一个函数里。</strong>。<br>因此 Async 函数却具有如下几个优点：</p>
+<ul>
+<li>内置执行器。 Generator 函数的执行必须靠执行器，所以才有了 co 函数库，而 async 函数自带执行器。也就是说，async 函数的执行，与普通函数一模一样，只要一行，并且 Async 函数返回一个 Promise 对象，使用 then 方法即可获取到异步操作的最终结果。</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> result = asyncReadFile();</span><br><span class="line">result.then(<span class="function"><span class="keyword">function</span>(<span class="params">data</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(data)</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>更好的语义。 async 和 await，比起星号和 yield，语义更清楚了。async 表示函数里有异步操作，await 表示紧跟在后面的表达式需要等待结果。</li>
+<li>更广的适用性。 co 函数库约定，yield 命令后面只能是 Thunk 函数或 Promise 对象，而 async 函数的 await 命令后面，可以跟 Promise 对象和原始类型的值（数值、字符串和布尔值，但这时等同于同步操作）。</li>
+</ul>
+<p>Async 函数的实现：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params">args</span>)</span>&#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 等同于</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params">args</span>)</span>&#123; </span><br><span class="line">  <span class="keyword">return</span> spawn(<span class="function"><span class="keyword">function</span>*(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">  &#125;); </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>所有的 async 函数都可以写成上面的第二种形式，其中的 spawn 函数就是自动执行器。而 spawn 函数的实现，基本就是前面自动执行器的翻版。</p>
+<h3 id="u603B_u7ED3"><a href="#u603B_u7ED3" class="headerlink" title="总结"></a>总结</h3><ol>
+<li>Generator 函数提供了一种函数写法，像同步编程一样，但是执行起来却很麻烦。</li>
+<li>Thunk 函数为执行 Generator 函数提供了便利，可以自动执行 Generator 函数。</li>
+<li>Co 函数库就是将Thunk 函数自动执行器和 Promise 对象自动执行器的封装，进一步简化了 Generator 函数的执行。</li>
+<li>Async 函数就是 Generator 函数的语法糖，将 Generator 函数的星号（*）替换成 async，将 yield 替换成 await，而它的实现，就是将 Generator 函数和自动执行器，包装在一个函数里。</li>
+</ol>
+
       
     </div>
     
@@ -295,10 +463,6 @@
 	</div>
 
 
-      
-        <p class="article-more-link">
-          <a  href="/2016/11/28/深入理解ES6异步编程/#more">more >></a>
-        </p>
       
       <div class="clearfix"></div>
     </div>
@@ -343,7 +507,30 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>最近在做crm系统，有一个需求是外呼系统收到来电通知时要给客户端(浏览器)实时推送一条信息，告诉客户端有来电了，也就是弹框显示来电电话号码。由于不是客户端主动请求服务端数据，所以就需要一个方案来解决服务端主动推送数据给客户端的问题。</p>
-<p>服务器推送数据也算是一类问题了，目前的解决方法也有不少，主要可以分成两类。这两类方法的区别在于是否基于HTTP协议实现，不使用HTTP协议的做法是实用HTML5新增的WebSocket规范，而使用HTTP协议规范的做法则包括简易轮询、COMET技术和本文要介绍的HTML5服务器推送事件(Server-sent Events)。<br>
+<p>服务器推送数据也算是一类问题了，目前的解决方法也有不少，主要可以分成两类。这两类方法的区别在于是否基于HTTP协议实现，不使用HTTP协议的做法是实用HTML5新增的WebSocket规范，而使用HTTP协议规范的做法则包括简易轮询、COMET技术和本文要介绍的HTML5服务器推送事件(Server-sent Events)。     </p>
+<h3 id="u670D_u52A1_u7AEF_u63A8_u9001_u65B9_u6848_u7B80_u4ECB"><a href="#u670D_u52A1_u7AEF_u63A8_u9001_u65B9_u6848_u7B80_u4ECB" class="headerlink" title="服务端推送方案简介"></a>服务端推送方案简介</h3><ul>
+<li><p>WebSocket：WebSocket规范是HTML5中的一个重要组成部分，已经被很多主流浏览器所支持，也有不少基于WebSocket开发的应用。正如名称所表示的一样，WebSocket使用的是套接字连接，基于TCP协议。使用WebSocket之后，实际上在服务端和客户端之间建立了一个套接字连接，可以进行双向的数据传输。WebSocket的功能很强大，使用起来也灵活，可以适用不同的场景。不过WebSocket技术也比较复杂，包括服务器和浏览器端的实现都不同于一般的Web应用。</p>
+</li>
+<li><p>简易轮询：浏览器定时向服务器端发出请求，来查询数据是否有更新。这种做法简单，在一定程度上可以解决问题。不过对于轮询的时间间隔需要进行仔细考虑。轮询的间隔过长会导致用户不能及时接收到更新的数据；轮询的间隔过短，会导致查询请求过多，增加服务端的负担。</p>
+</li>
+<li><p>COMET：改进了简易轮询的缺点，使用的是长轮询。长轮询的基本思想是在每次客户端发出请求后，服务器检查上次返回的数据与此次请求时的数据之间是否有更新，如果有更新则返回新数据并结束此次连接，否则服务器“hold”住此次连接，直到有新数据时再返回相应。而这种长时间的保持连接可以通过设置一个较大的HTTP timeout实现。这样做的好处是在连接处于打开状态的时间段内，服务端产生的数据更新可以被及时的返回给浏览器，当上一个长连接关闭之后，浏览器会打开一个新的长连接来继续请求。不过COMET技术的实现需要在服务端和浏览器端都需要第三方库的支持。</p>
+</li>
+<li><p>SSE：当使用服务器推送事件(SSE)进行通信的时候，服务器在应用需要数据的时候，并不需要初始化请求就能把数据推送给应用。换句话说，当更新需要进行的时候，它就从服务器端自动流向客户端。SSE在服务端和客户端打开了一个单方向的通道。</p>
+</li>
+</ul>
+<p>综合比较上面提到的4种不同的技术，简易轮询由于其本身的缺陷，并不推荐使用。COMET技术并不是HTML5标准的一部分，从兼容标准的角度出发，也不推荐使用。WebSocket规范和服务器推送技术都是HTML5标准的组成部分，在主流浏览器上都提供了原生的支持，是推荐使用的。不过WebSocket规范更加复杂一些，适用于需要进行复杂双向数据通讯的场景。对于简单的服务器数据推送的场景，使用服务器推送事件就足够了。</p>
+<p>分享一个通（ji）俗（qi）易（dou）懂（bi）的介绍轮询和WebSocket的文章：<a href="http://www.zhihu.com/question/20215561/answer/40316953?utm_source=weibo&amp;utm_medium=weibo_share&amp;utm_content=share_answer&amp;utm_campaign=share_button" target="_blank" rel="external">知乎：WebSocket 是什么原理？为什么可以实现持久连接？</a></p>
+<h3 id="u4E3A_u4EC0_u4E48_u9009_u62E9SSE_u800C_u4E0D_u662FWebSocket"><a href="#u4E3A_u4EC0_u4E48_u9009_u62E9SSE_u800C_u4E0D_u662FWebSocket" class="headerlink" title="为什么选择SSE而不是WebSocket"></a>为什么选择SSE而不是WebSocket</h3><p>SSE(服务器发送事件)总是处在不引人注目的阴暗地方的一个原因是因为像WebSocket这样的后来的应用提供了执行双向，双工通信的更丰富的协议。具有两个方向通道对哪些诸如游戏、消息应用以及需要几乎是双向实时更新的应用来说更具吸引力。然而在某些场景下，不需要从客户端发送数据。你只需要更新某些来自服务器的动作。有几个例子：朋友状态更新、股票行情更新、新闻推送或者其他自动数据推送机制。在我们的需求中引入WebSocket太重，并且只需要服务器向浏览器推数据就够了，所以选择使用服务器推送事件Server-sent Events而不是WebSocket。<br>业务决定需求，需求决定采用哪种技术，并不是哪种方案好或不好，在适合的场景选择最适合的技术就对了。</p>
+<h3 id="SSE_u5BA2_u6237_u7AEF_u5B9E_u73B0"><a href="#SSE_u5BA2_u6237_u7AEF_u5B9E_u73B0" class="headerlink" title="SSE客户端实现"></a>SSE客户端实现</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="doctype">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">div</span>&gt;</span></span><br><span class="line">  server-sent events</span><br><span class="line"><span class="tag">&lt;/<span class="title">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">script</span> <span class="attribute">type</span>=<span class="value">"text/javascript"</span>&gt;</span><span class="javascript"></span><br><span class="line"><span class="keyword">var</span> source = <span class="keyword">new</span> EventSource(<span class="string">'http://www.example.com/api/message'</span>);</span><br><span class="line">source.onmessage = <span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(e.data);</span><br><span class="line">&#125;;</span><br><span class="line"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="SSE_u670D_u52A1_u7AEF_u5B9E_u73B0_28Node-js_29"><a href="#SSE_u670D_u52A1_u7AEF_u5B9E_u73B0_28Node-js_29" class="headerlink" title="SSE服务端实现(Node.js)"></a>SSE服务端实现(Node.js)</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> http = <span class="built_in">require</span>(<span class="string">"http"</span>);</span><br><span class="line"></span><br><span class="line">http.createServer(<span class="function"><span class="keyword">function</span> (<span class="params">req, res</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">var</span> fileName = <span class="string">"."</span> + req.url;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (fileName === <span class="string">"./stream"</span>) &#123;</span><br><span class="line">     res.writeHead(<span class="number">200</span>, &#123;</span><br><span class="line">		<span class="string">"Content-Type"</span>:<span class="string">"text/event-stream"</span>, </span><br><span class="line">		<span class="string">"Cache-Control"</span>:<span class="string">"no-cache"</span>, </span><br><span class="line">		<span class="string">"Connection"</span>:<span class="string">"keep-alive"</span></span><br><span class="line">	  &#125;);</span><br><span class="line">	  res.write(<span class="string">"retry: 10000\n"</span>);</span><br><span class="line">	  res.write(<span class="string">"event: connecttime\n"</span>);</span><br><span class="line">	  res.write(<span class="string">"data: "</span> + (<span class="keyword">new</span> <span class="built_in">Date</span>()) + <span class="string">"\n\n"</span>);</span><br><span class="line">      res.write(<span class="string">"data: "</span> + (<span class="keyword">new</span> <span class="built_in">Date</span>()) + <span class="string">"\n\n"</span>);</span><br><span class="line"></span><br><span class="line">	  interval = setInterval(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">	    res.write(<span class="string">"data: "</span> + (<span class="keyword">new</span> <span class="built_in">Date</span>()) + <span class="string">"\n\n"</span>);</span><br><span class="line">	  &#125;, <span class="number">1000</span>);</span><br><span class="line"></span><br><span class="line">	  req.connection.addListener(<span class="string">"close"</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">	    clearInterval(interval);</span><br><span class="line">	  &#125;, <span class="literal">false</span>);</span><br><span class="line">   &#125;</span><br><span class="line">&#125;).listen(<span class="number">80</span>, <span class="string">"127.0.0.1"</span>);</span><br></pre></td></tr></table></figure>
+<h3 id="u53C2_u8003_u94FE_u63A5_u53CA_u66F4_u591A_u7EC6_u8282"><a href="#u53C2_u8003_u94FE_u63A5_u53CA_u66F4_u591A_u7EC6_u8282" class="headerlink" title="参考链接及更多细节"></a>参考链接及更多细节</h3><ul>
+<li><a href="http://www.ibm.com/developerworks/cn/web/1307_chengfu_serversentevent/" target="_blank" rel="external">HTML5 服务器推送事件（Server-sent Events）实战开发</a></li>
+<li><a href="http://www.oschina.net/translate/stream-updates-with-server-sent-events?print" target="_blank" rel="external">使用服务器发送事件流</a></li>
+<li><a href="http://blog.zhangruipeng.me/2015/10/22/Web-Connectivity/" target="_blank" rel="external">传统轮询、长轮询、服务器发送事件与WebSocket</a></li>
+<li><a href="http://www.xiaocaoge.com/server-sent-events.html" target="_blank" rel="external">使用 Server-Sent Events</a></li>
+<li><a href="http://javascript.ruanyifeng.com/htmlapi/eventsource.html#toc15" target="_blank" rel="external">SSE：服务器发送事件</a></li>
+</ul>
+
       
     </div>
     
@@ -360,10 +547,6 @@
 	</div>
 
 
-      
-        <p class="article-more-link">
-          <a  href="/2016/09/02/服务器推送sse实战/#more">more >></a>
-        </p>
       
       <div class="clearfix"></div>
     </div>
@@ -409,6 +592,22 @@
       
         <h3 id="u95EE_u98981_uFF1A_u521B_u5EFA_u201C_u5185_u7F6E_u201D_u65B9_u6CD5"><a href="#u95EE_u98981_uFF1A_u521B_u5EFA_u201C_u5185_u7F6E_u201D_u65B9_u6CD5" class="headerlink" title="问题1：创建“内置”方法"></a>问题1：创建“内置”方法</h3><p>给String对象定义一个repeatify方法。该方法接收一个整数参数，作为字符串重复的次数，最后返回重复指定次数的字符串。例如：</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> str = <span class="string">'hello'</span>;</span><br><span class="line"><span class="built_in">console</span>.log(str.repeatify(<span class="number">3</span>));</span><br></pre></td></tr></table></figure>
+<p>输出应该是: hellohellohello</p>
+<p><strong>答案:</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">String</span>.prototype.repeatify = <span class="built_in">String</span>.prototype.repeatify || <span class="function"><span class="keyword">function</span> (<span class="params">times</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> str = <span class="string">''</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; times; i++) &#123;</span><br><span class="line">    str += <span class="keyword">this</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> str;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="u95EE_u98982_uFF1Athis"><a href="#u95EE_u98982_uFF1Athis" class="headerlink" title="问题2：this"></a>问题2：this</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> fullname = <span class="string">'paul'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> obj = &#123;</span><br><span class="line"></span><br><span class="line">  fullname: <span class="string">'kobe'</span>,</span><br><span class="line"></span><br><span class="line">  prop: &#123;</span><br><span class="line"></span><br><span class="line">    fullname: <span class="string">'bryant'</span>,</span><br><span class="line"></span><br><span class="line">    getFullname: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">this</span>.fullname;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(obj.prop.getFullname());</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> test = obj.prop.getFullname;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(test());</span><br><span class="line"><span class="string">``</span><span class="string">` </span><br><span class="line">**答案：** 代码输出：bryant 和 paul</span><br><span class="line"></span><br><span class="line">### 问题3：call()和apply()</span><br><span class="line"></span><br><span class="line">修复前一个问题，让最后一个console.log() 打印输出bryant      </span><br><span class="line">**答案：**   </span><br><span class="line">  </span><br><span class="line">`</span><span class="string">``</span>js   </span><br><span class="line"><span class="built_in">console</span>.log(test.call(obj.prop))</span><br><span class="line"><span class="built_in">console</span>.log(test.apply(obj.prop))</span><br></pre></td></tr></table></figure>
+<p>追加提问，call和apply的区别</p>
+<h3 id="u95EE_u98984_3A__u95ED_u5305"><a href="#u95EE_u98984_3A__u95ED_u5305" class="headerlink" title="问题4: 闭包"></a>问题4: 闭包</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; <span class="number">3</span>; i++) &#123;</span><br><span class="line">  setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(i);</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="number">0</span>);</span><br><span class="line">  &#125;, <span class="number">1000</span>);</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="number">5</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>答案：</strong><br>5<br>5<br>5<br>3<br>0<br>3<br>0<br>3<br>0</p>
+<p>追加提问：如果想输出：<br>5<br>5<br>5<br>0<br>0<br>1<br>0<br>2<br>0<br><strong>答案1：</strong> 严格模式下，var改成let<br><strong>答案2：</strong> 闭包    </p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; <span class="number">3</span>; i++) &#123;</span><br><span class="line">  (<span class="function"><span class="keyword">function</span>(<span class="params">i</span>) </span>&#123;</span><br><span class="line">    setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">      <span class="built_in">console</span>.log(i);</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="number">0</span>);</span><br><span class="line">    &#125;, <span class="number">1000</span>);</span><br><span class="line">  &#125;)(i)</span><br><span class="line"></span><br><span class="line">  <span class="built_in">console</span>.log(<span class="number">5</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="u95EE_u98985_3A__u58F0_u660E_u63D0_u524D"><a href="#u95EE_u98985_3A__u58F0_u660E_u63D0_u524D" class="headerlink" title="问题5: 声明提前"></a>问题5: 声明提前</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">test</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(a);</span><br><span class="line">  <span class="built_in">console</span>.log(foo());</span><br><span class="line"></span><br><span class="line">  <span class="keyword">var</span> a = <span class="number">1</span>;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">2</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">test();</span><br></pre></td></tr></table></figure>
+<p><strong>答案：</strong> undefined 2<br>变量和函数的声明都被提前至函数体的顶部，而同时变量并没有被赋值。因此，当打印变量a时，它虽存在于函数体（因为a已经被声明），但仍然是undefined。换句话说，上面的代码等同于下面的代码：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">test</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> a;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">2</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="built_in">console</span>.log(a);</span><br><span class="line">  <span class="built_in">console</span>.log(foo());</span><br><span class="line">  </span><br><span class="line">  a = <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">test();</span><br></pre></td></tr></table></figure>
+<h3 id="u95EE_u98986_uFF1A_u9012_u5F52"><a href="#u95EE_u98986_uFF1A_u9012_u5F52" class="headerlink" title="问题6：递归"></a>问题6：递归</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">test</span>(<span class="params">n</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (n == <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (n == <span class="number">1</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> test(n-<span class="number">1</span>) + test(n-<span class="number">2</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(test(<span class="number">5</span>));</span><br></pre></td></tr></table></figure>
+<p>改成非递归的形式：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">test2</span>(<span class="params">n</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> arr = [<span class="number">0</span>, <span class="number">1</span>];</span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">2</span>; i &lt;= n; i++) &#123;</span><br><span class="line">    arr.push(arr[i-<span class="number">1</span>] + arr[i-<span class="number">2</span>]);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> arr[n];</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(test2(<span class="number">5</span>))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">test3</span>(<span class="params">n</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> obj = &#123;&#125;;</span><br><span class="line">  obj[<span class="number">0</span>] = <span class="number">0</span>;</span><br><span class="line">  obj[<span class="number">1</span>] = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">2</span>; i &lt;=n; i++) &#123;</span><br><span class="line">    obj[i] = obj[i-<span class="number">1</span>] + obj[i-<span class="number">2</span>];</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> obj[n];</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(test3(<span class="number">5</span>))</span><br></pre></td></tr></table></figure>
+
       
     </div>
     
@@ -425,74 +624,6 @@
 	</div>
 
 
-      
-        <p class="article-more-link">
-          <a  href="/2016/06/28/javascript常见面试题总结/#more">more >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-拿起篮球，走向球场" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/04/22/拿起篮球，走向球场/" class="article-date">
-  	<time datetime="2016-04-22T01:20:24.000Z" itemprop="datePublished">2016-04-22</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/04/22/拿起篮球，走向球场/">拿起篮球，走向球场</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>那是你第一次接触篮球，看到电视上飞奔的球员、看到画着弧线的篮球落向球框，你的心开始激动起来；<br>那是你第一次有喜欢的球队和偶像，看到他们在球场上奋力厮杀，不自觉地会为他们呐喊和加油；<br>那是你第一次拿起篮球，一遍遍地模仿偶像的动作，甚至模仿他们的表情，期待有一天能像他们那样在球场上所向披靡；<br>
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/篮球/">篮球</a></li></ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-	<a class="article-category-link" href="/categories/life/">life</a>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a  href="/2016/04/22/拿起篮球，走向球场/#more">more >></a>
-        </p>
       
       <div class="clearfix"></div>
     </div>
@@ -556,22 +687,6 @@
 </script>
 <script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
 <script src="/js/main.js" type="text/javascript"></script>
-
-
-<script type="text/javascript">
-var _ma = _ma || [];
-_ma.push(['_setAccount', 'UA-351107434-1']);
-(function() {
-  var ma = document.createElement('script');
-  ma.type = 'text/javascript';
-  ma.async = true;
-  ma.src = ('https:' == document.location.protocol ? 'https://user' : 'http://user') + '.smartstudy.com:3000/ma.js';
-  var s = document.getElementsByTagName('script')[0]; 
-  s.parentNode.insertBefore(ma, s);
-  console.log('=======')
-})();
-</script>
-
 
 
 <script type="text/x-mathjax-config">

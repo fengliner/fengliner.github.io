@@ -26,7 +26,7 @@ Promise对象
 Promise对象
 
 无论采用哪种方法，代码都不显得那么优雅。ES6将 JavaScript 异步编程带入了一个全新的阶段。回想起第一次遇见 Generator 时的兴奋之情仍然历历在目。一直以为自己理解了Generator 函数，直到今天有朋友问起一">
-<meta property="og:updated_time" content="2016-11-28T14:54:05.000Z">
+<meta property="og:updated_time" content="2016-12-08T05:44:06.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="深入理解ES6异步编程">
 <meta name="twitter:description" content="JavaScript 的单线程，如果没有异步编程的话将会苦不堪言。ES6 之前，异步编程的方法，大概有下面4种：
@@ -105,7 +105,7 @@ Promise对象
 				<div class="tips-box hide">
 					<div class="tips-arrow"></div>
 					<ul class="tips-inner">
-						<li>菜单</li>
+						<li>Menu</li>
 						<li>標籤</li>
 						
 						
@@ -140,7 +140,7 @@ Promise对象
 				
 				<section class="switch-part switch-part2">
 					<div class="widget tagcloud" id="js-tagcloud">
-						<a href="/tags/C/" style="font-size: 18px;">C++</a> <a href="/tags/Mongodb/" style="font-size: 14px;">Mongodb</a> <a href="/tags/Ubuntu/" style="font-size: 12px;">Ubuntu</a> <a href="/tags/database/" style="font-size: 10px;">database</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/http/" style="font-size: 10px;">http</a> <a href="/tags/ios/" style="font-size: 10px;">ios</a> <a href="/tags/javascript/" style="font-size: 12px;">javascript</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/node-js/" style="font-size: 20px;">node.js</a> <a href="/tags/postgresql/" style="font-size: 10px;">postgresql</a> <a href="/tags/web/" style="font-size: 14px;">web</a> <a href="/tags/数据库/" style="font-size: 10px;">数据库</a> <a href="/tags/数据结构/" style="font-size: 16px;">数据结构</a> <a href="/tags/文件操作/" style="font-size: 10px;">文件操作</a> <a href="/tags/篮球/" style="font-size: 16px;">篮球</a> <a href="/tags/虚函数/" style="font-size: 10px;">虚函数</a> <a href="/tags/设计模式/" style="font-size: 10px;">设计模式</a> <a href="/tags/诗歌/" style="font-size: 12px;">诗歌</a> <a href="/tags/随笔/" style="font-size: 14px;">随笔</a>
+						<a href="/tags/C/" style="font-size: 18px;">C++</a> <a href="/tags/Mongodb/" style="font-size: 14px;">Mongodb</a> <a href="/tags/Ubuntu/" style="font-size: 12px;">Ubuntu</a> <a href="/tags/database/" style="font-size: 10px;">database</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/http/" style="font-size: 10px;">http</a> <a href="/tags/ios/" style="font-size: 10px;">ios</a> <a href="/tags/javascript/" style="font-size: 12px;">javascript</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/node-js/" style="font-size: 20px;">node.js</a> <a href="/tags/postgresql/" style="font-size: 10px;">postgresql</a> <a href="/tags/system-design/" style="font-size: 10px;">system design</a> <a href="/tags/web/" style="font-size: 14px;">web</a> <a href="/tags/数据库/" style="font-size: 10px;">数据库</a> <a href="/tags/数据结构/" style="font-size: 16px;">数据结构</a> <a href="/tags/文件操作/" style="font-size: 10px;">文件操作</a> <a href="/tags/篮球/" style="font-size: 14px;">篮球</a> <a href="/tags/虚函数/" style="font-size: 10px;">虚函数</a> <a href="/tags/设计模式/" style="font-size: 10px;">设计模式</a> <a href="/tags/诗歌/" style="font-size: 12px;">诗歌</a> <a href="/tags/随笔/" style="font-size: 14px;">随笔</a>
 					</div>
 				</section>
 				
@@ -249,7 +249,7 @@ Promise对象
 <li>Promise对象</li>
 </ul>
 <p>无论采用哪种方法，代码都不显得那么优雅。ES6将 JavaScript 异步编程带入了一个全新的阶段。回想起第一次遇见 Generator 时的兴奋之情仍然历历在目。一直以为自己理解了Generator 函数，直到今天有朋友问起一些问题才发现自己根本就没有理解清楚，为了让自己更加清楚明白，参考了阮一峰的深入掌握 ECMAScript 6 异步编程系列的文章后，就有了下文。</p>
-<p>主要从4个方面讲述 ES6 的异步编程，分别是Generator、Thunk、Co以及Async (严格说是属于 ES7 的范畴了)。<br><a id="more"></a></p>
+<p>主要从4个方面讲述 ES6 的异步编程，分别是Generator、Thunk、Co以及Async (严格说是属于 ES7 的范畴了)。</p>
 <h3 id="Generator"><a href="#Generator" class="headerlink" title="Generator"></a>Generator</h3><p>如何使用 Generator 函数，执行一个真实的异步任务。</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> fetch = <span class="built_in">require</span>(<span class="string">'node-fetch'</span>);</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">gen</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="keyword">var</span> url = <span class="string">'https://api.github.com/users/github'</span>;</span><br><span class="line">  <span class="keyword">var</span> result = <span class="keyword">yield</span> fetch(url);</span><br><span class="line">  <span class="built_in">console</span>.log(result.bio);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>上面代码中，Generator 函数封装了一个异步操作，该操作先读取一个远程接口，然后从 JSON 格式的数据解析信息。就像前面说过的，这段代码非常像同步操作，除了加上了 yield 命令。<br>Generator函数已经写好了，但是怎么执行呢，和普通的函数直接调用不一样，为了执行上述的 Generator 函数，需要进行如下操作。</p>
@@ -310,7 +310,7 @@ Promise对象
     
 <nav id="article-nav">
   
-    <a href="/2016/12/06/PostgreSql学习笔记之索引/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2016/12/06/数据库索引及慢查询优化/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption"><</strong>
       <div class="article-nav-title">
         
@@ -334,7 +334,7 @@ Promise对象
 <div class="share_jia">
 	<!-- JiaThis Button BEGIN -->
 	<div class="jiathis_style">
-		<span class="jiathis_txt">分享到: &nbsp; </span>
+		<span class="jiathis_txt">Share to: &nbsp; </span>
 		<a class="jiathis_button_facebook"></a> 
     <a class="jiathis_button_twitter"></a>
     <a class="jiathis_button_plus"></a> 
@@ -417,22 +417,6 @@ Promise对象
 </script>
 <script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
 <script src="/js/main.js" type="text/javascript"></script>
-
-
-<script type="text/javascript">
-var _ma = _ma || [];
-_ma.push(['_setAccount', 'UA-351107434-1']);
-(function() {
-  var ma = document.createElement('script');
-  ma.type = 'text/javascript';
-  ma.async = true;
-  ma.src = ('https:' == document.location.protocol ? 'https://user' : 'http://user') + '.smartstudy.com:3000/ma.js';
-  var s = document.getElementsByTagName('script')[0]; 
-  s.parentNode.insertBefore(ma, s);
-  console.log('=======')
-})();
-</script>
-
 
 
 <script type="text/x-mathjax-config">
